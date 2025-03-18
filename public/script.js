@@ -69,7 +69,7 @@ if (window.location.pathname.endsWith('schedule.html')) {
         const scheduleGrid = document.getElementById('schedule-grid');
         const scheduleInfo = document.getElementById('schedule-info');
         let lastHighlightedButton = null;
-        for (let row = 0; row < scheduleData.length; row++) {
+        for (let row = 0; row < scheduleData.length; row < scheduleData.length; row++) {
             for (let col = 0; col < scheduleData[row].length; col++) {
                 const schoolClass = scheduleData[row][col];
                 const buttonText = (schoolClass != null) ? schoolClass.className : "Empty";
