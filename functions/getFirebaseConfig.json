@@ -1,0 +1,14 @@
+const functions = require('firebase-functions');
+
+exports.getFirebaseConfig = functions.https.onRequest((req, res) => {
+    const firebaseConfig = {
+        apiKey: functions.config().google.api_key, // Retrieve from environment config
+        authDomain: "projectpolaris-1d511.firebaseapp.com",
+        projectId: "projectpolaris-1d511",
+        storageBucket: "projectpolaris-1d511.firebasestorage.app",
+        messagingSenderId: "60852178591",
+        appId: "1:60852178591:web:564daf44ec41fcc0c61caa",
+        measurementId: "G-DDVMXFKNZN"
+    };
+    res.json({ firebaseConfig });
+});
