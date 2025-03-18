@@ -1,4 +1,11 @@
-/* ... (Color variables from above) ... */
+:root {
+    --sky-blue: rgb(120, 172, 200);
+    --navy-blue: rgb(35, 55, 87);
+    --light-blue: rgb(79, 106, 147);
+    --blue: rgb(42, 75, 123);
+    --gray: rgb(59, 63, 75);
+}
+
 body {
     margin: 0;
     height: 100vh;
@@ -7,18 +14,22 @@ body {
     align-items: center;
     background-color: var(--gray);
 }
+
 #main-container {
     text-align: center;
 }
+
 #welcome-label {
     font-size: 50px;
     color: var(--blue);
     margin-bottom: 300px;
 }
+
 #button-container {
     display: flex;
     justify-content: center;
 }
+
 #button-container button {
     background-color: var(--blue);
     color: var(--sky-blue);
@@ -28,6 +39,7 @@ body {
     border: none;
     cursor: pointer;
 }
+
 /* Schedule Page Styles */
 #schedule-container {
     display: flex;
@@ -37,12 +49,14 @@ body {
     height: 100vh;
     background-color: var(--gray);
 }
+
 #schedule-grid {
     display: grid;
     grid-template-columns: repeat(4, 150px);
     grid-gap: 10px;
     margin-bottom: 20px;
 }
+
 #schedule-grid button {
     width: 150px;
     height: 300px;
@@ -53,9 +67,11 @@ body {
     border: none;
     cursor: pointer;
 }
+
 #schedule-grid button.highlighted {
     background-color: var(--light-blue);
 }
+
 #schedule-info {
     display: none;
     position: absolute;
@@ -66,9 +82,11 @@ body {
     font-size: 32px;
     text-align: left;
 }
+
 #schedule-info p {
     margin: 5px 0;
 }
+
 #schedule-back-button {
     background-color: var(--blue);
     color: var(--sky-blue);
