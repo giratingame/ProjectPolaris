@@ -1,16 +1,19 @@
 // script.js
-// Main Page Button Listeners
+// Main Page Button Listeners (Event Delegation)
 if (window.location.pathname.endsWith('index.html')) {
     document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('review-button').addEventListener('click', function() {
-            window.location.href = 'review.html';
-        });
-        document.getElementById('schedule-button').addEventListener('click', function() {
-            window.location.href = 'schedule.html';
-        });
-        document.getElementById('social-button').addEventListener('click', function() {
-            window.location.href = 'social.html';
-        });
+        const buttonContainer = document.getElementById('button-container');
+        if (buttonContainer) {
+            buttonContainer.addEventListener('click', function(event) {
+                if (event.target.id === 'review-button') {
+                    window.location.href = 'review.html';
+                } else if (event.target.id === 'schedule-button') {
+                    window.location.href = 'schedule.html';
+                } else if (event.target.id === 'social-button') {
+                    window.location.href = 'social.html';
+                }
+            });
+        }
     });
 }
 // Schedule Page Logic (schedule.html)
@@ -69,39 +72,55 @@ if (window.location.pathname.endsWith('schedule.html')) {
         const scheduleGrid = document.getElementById('schedule-grid');
         const scheduleInfo = document.getElementById('schedule-info');
         let lastHighlightedButton = null;
-        for (let row = 0; row < scheduleData.length; row < scheduleData.length; row++) {
+        // Clear existing buttons (important!)
+        scheduleGrid.innerHTML = '';
+        for (let row = 0; row < scheduleData.length; row++) {
             for (let col = 0; col < scheduleData[row].length; col++) {
                 const schoolClass = scheduleData[row][col];
-                const buttonText = (schoolClass != null) ? schoolClass.className : "Empty";
                 const button = document.createElement('button');
-                button.textContent = buttonText;
-                button.addEventListener('click', function() {
-                    // Deselect the previously highlighted button
-                    if (lastHighlightedButton) {
-                        lastHighlightedButton.classList.remove('highlighted');
-                    }
-                    // If the class is not null, highlight the button and show the information
-                    if (schoolClass) {
-                        button.classList.add('highlighted');
-                        document.getElementById('class-name').textContent = 'Class: ' + schoolClass.className;
-                        document.getElementById('grade').textContent = 'Grade: ' + schoolClass.grade;
-                        document.getElementById('teacher').textContent = 'Teacher: ' + schoolClass.teacher;
-                        document.getElementById('absences').textContent = 'Absences: ' + schoolClass.absences;
-                        scheduleInfo.style.display = 'block';
-                        lastHighlightedButton = button;
-                    } else {
-                        // If the class is null, clear the information and hide the info box
-                        document.getElementById('class-name').textContent = '';
-                        document.getElementById('grade').textContent = '';
-                        document.getElementById('teacher').textContent = '';
-                        document.getElementById('absences').textContent = '';
-                        scheduleInfo.style.display = 'none';
-                        lastHighlightedButton = null;
-                    }
-                });
+                button.textContent = schoolClass ? schoolClass.className : 'Empty';
+                button.dataset.row = row; // Store row and col
+                button.dataset.col = col;
+                if (schoolClass) {
+                    button.dataset.className = schoolClass.className;
+                    button.dataset.grade = schoolClass.grade;
+                    button.dataset.teacher = schoolClass.teacher;
+                    button.dataset.absences = schoolClass.absences;
+                }
                 scheduleGrid.appendChild(button);
             }
         }
+        // Event delegation for schedule grid buttons
+        scheduleGrid.addEventListener('click', function(event) {
+            if (event.target.tagName === 'BUTTON') {
+                const button = event.target;
+                const row = button.dataset.row;
+                const col = button.dataset.col;
+                const schoolClass = scheduleData[row][col];
+                // Deselect the previously highlighted button
+                if (lastHighlightedButton) {
+                    lastHighlightedButton.classList.remove('highlighted');
+                }
+                // If the class is not null, highlight the button and show the information
+                if (schoolClass) {
+                    button.classList.add('highlighted');
+                    document.getElementById('class-name').textContent = 'Class: ' + schoolClass.className;
+                    document.getElementById('grade').textContent = 'Grade: ' + schoolClass.grade;
+                    document.getElementById('teacher').textContent = 'Teacher: ' + schoolClass.teacher;
+                    document.getElementById('absences').textContent = 'Absences: ' + schoolClass.absences;
+                    scheduleInfo.style.display = 'block';
+                    lastHighlightedButton = button;
+                } else {
+                    // If the class is null, clear the information and hide the info box
+                    document.getElementById('class-name').textContent = '';
+                    document.getElementById('grade').textContent = '';
+                    document.getElementById('teacher').textContent = '';
+                    document.getElementById('absences').textContent = '';
+                    scheduleInfo.style.display = 'none';
+                    lastHighlightedButton = null;
+                }
+            }
+        });
         // Add event listener to schedule back button
         document.getElementById('schedule-back-button').addEventListener('click', function() {
             window.location.href = 'index.html';
@@ -121,10 +140,4 @@ if (window.location.pathname.endsWith('review.html')) {
 // Social Page Logic (social.html)
 if (window.location.pathname.endsWith('social.html')) {
     document.addEventListener('DOMContentLoaded', function() {
-        // Add event listener to social back button
-        document.getElementById('social-back-button').addEventListener('click', function() {
-            window.location.href = 'index.html';
-        });
-        // Add social functionality here
-    });
-}
+        // Add event
