@@ -1,30 +1,21 @@
-// Testing Comment
-
+// script.js
 // Main Page Button Listeners
 if (window.location.pathname.endsWith('index.html')) {
     document.addEventListener('DOMContentLoaded', function() {
-        // Attach event listeners to main page buttons after the DOM is fully loaded
         document.getElementById('review-button').addEventListener('click', function() {
-            // Navigate to the review page when the review button is clicked
             window.location.href = 'review.html';
         });
-
         document.getElementById('schedule-button').addEventListener('click', function() {
-            // Navigate to the schedule page when the schedule button is clicked
             window.location.href = 'schedule.html';
         });
-
         document.getElementById('social-button').addEventListener('click', function() {
-            // Navigate to the social page when the social button is clicked
             window.location.href = 'social.html';
         });
     });
 }
-
 // Schedule Page Logic (schedule.html)
 if (window.location.pathname.endsWith('schedule.html')) {
     document.addEventListener('DOMContentLoaded', function() {
-        // Define the schedule data array
         const scheduleData = [
             [
                 { className: "Math 101", grade: 85, teacher: "Mr. Smith", absences: 2 },
@@ -75,63 +66,48 @@ if (window.location.pathname.endsWith('schedule.html')) {
                 { className: "Art 201", grade: 87, teacher: "Mr. Blue", absences: 2 }
             ]
         ];
-
-        // Get references to schedule grid and info elements
         const scheduleGrid = document.getElementById('schedule-grid');
         const scheduleInfo = document.getElementById('schedule-info');
         let lastHighlightedButton = null;
-
-        // Loop through schedule data and create buttons
         for (let row = 0; row < scheduleData.length; row++) {
             for (let col = 0; col < scheduleData[row].length; col++) {
                 const schoolClass = scheduleData[row][col];
+                const buttonText = (schoolClass != null) ? schoolClass.className : "Empty";
                 const button = document.createElement('button');
-                button.textContent = schoolClass ? schoolClass.className : 'Empty';
-                button.addEventListener('click', () => {
-                    // Handle button click event
-                    if (button === lastHighlightedButton) {
-                        // Deselect if already highlighted
-                        button.classList.remove('highlighted');
-                        scheduleInfo.style.display = 'none';
-                        lastHighlightedButton = null;
-                        return;
-                    }
-
-                    if (schoolClass === null) {
-                        // Clear selection if clicking empty slot
-                        if (lastHighlightedButton) {
-                            lastHighlightedButton.classList.remove('highlighted');
-                        }
-                        scheduleInfo.style.display = 'none';
-                        lastHighlightedButton = null;
-                        return;
-                    }
-
+                button.textContent = buttonText;
+                button.addEventListener('click', function() {
+                    // Deselect the previously highlighted button
                     if (lastHighlightedButton) {
-                        // Reset last highlighted button
                         lastHighlightedButton.classList.remove('highlighted');
                     }
-
-                    // Highlight the selected button and show class info
-                    button.classList.add('highlighted');
-                    document.getElementById('class-name').textContent = 'Class: ' + schoolClass.className;
-                    document.getElementById('grade').textContent = 'Grade: ' + schoolClass.grade;
-                    document.getElementById('teacher').textContent = 'Teacher: ' + schoolClass.teacher;
-                    document.getElementById('absences').textContent = 'Absences: ' + schoolClass.absences;
-                    scheduleInfo.style.display = 'block';
-                    lastHighlightedButton = button;
+                    // If the class is not null, highlight the button and show the information
+                    if (schoolClass) {
+                        button.classList.add('highlighted');
+                        document.getElementById('class-name').textContent = 'Class: ' + schoolClass.className;
+                        document.getElementById('grade').textContent = 'Grade: ' + schoolClass.grade;
+                        document.getElementById('teacher').textContent = 'Teacher: ' + schoolClass.teacher;
+                        document.getElementById('absences').textContent = 'Absences: ' + schoolClass.absences;
+                        scheduleInfo.style.display = 'block';
+                        lastHighlightedButton = button;
+                    } else {
+                        // If the class is null, clear the information and hide the info box
+                        document.getElementById('class-name').textContent = '';
+                        document.getElementById('grade').textContent = '';
+                        document.getElementById('teacher').textContent = '';
+                        document.getElementById('absences').textContent = '';
+                        scheduleInfo.style.display = 'none';
+                        lastHighlightedButton = null;
+                    }
                 });
                 scheduleGrid.appendChild(button);
             }
         }
-
         // Add event listener to schedule back button
         document.getElementById('schedule-back-button').addEventListener('click', function() {
             window.location.href = 'index.html';
         });
     });
 }
-
 // Review Page Logic (review.html)
 if (window.location.pathname.endsWith('review.html')) {
     document.addEventListener('DOMContentLoaded', function() {
@@ -139,13 +115,9 @@ if (window.location.pathname.endsWith('review.html')) {
         document.getElementById('review-back-button').addEventListener('click', function() {
             window.location.href = 'index.html';
         });
-        // Add review functionality here (e.g., display a list of classes)
-        // For now, we'll just leave it as a basic page
-        //In the future, this section will contain code to display class reviews.
-        //For example, this could include dynamically creating list items based on review data.
+        // Add review functionality here
     });
 }
-
 // Social Page Logic (social.html)
 if (window.location.pathname.endsWith('social.html')) {
     document.addEventListener('DOMContentLoaded', function() {
@@ -153,9 +125,6 @@ if (window.location.pathname.endsWith('social.html')) {
         document.getElementById('social-back-button').addEventListener('click', function() {
             window.location.href = 'index.html';
         });
-        // Add social functionality here (e.g., display social feeds)
-        // For now, we'll just leave it as a basic page
-        //In the future, this section will contain code to display social feeds.
-        //This could include fetching and displaying data from a social media API.
+        // Add social functionality here
     });
 }
