@@ -120,24 +120,10 @@ if (window.location.pathname.endsWith('schedule.html')) {
                     lastHighlightedButton = null;
                 }
             }
-        });
+        } );  // Added closing curly brace here
         // Add event listener to schedule back button
         document.getElementById('schedule-back-button').addEventListener('click', function() {
             window.location.href = 'index.html';
         });
     });
 }
-// Review Page Logic (review.html)
-if (window.location.pathname.endsWith('review.html')) {
-    document.addEventListener('DOMContentLoaded', function() {
-        // Add event listener to review back button
-        document.getElementById('review-back-button').addEventListener('click', function() {
-            window.location.href = 'index.html';
-        });
-        // Add review functionality here
-    });
-}
-// Social Page Logic (social.html)
-if (window.location.pathname.endsWith('social.html')) {
-    document.addEventListener('DOMContentLoaded', function() {
-        // Add event
