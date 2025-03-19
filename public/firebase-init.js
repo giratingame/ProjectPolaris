@@ -4,13 +4,14 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyAEquBjEhGu4rLKj4pSUSVRa2OYQ964IQs",
-    authDomain: "projectpolaris-1d511.firebaseapp.com",
-    projectId: "projectpolaris-1d511",
-    storageBucket: "projectpolaris-1d511.firebasestorage.app",
-    messagingSenderId: "60852178591",
-    appId: "1:60852178591:web:564daf44ec41fcc0c61caa",
-    measurementId: "G-DDVMXFKNZN"
+
+  apiKey: "AIzaSyDVhIJ_abp8jQJi8QAtsnvg-WKkPbNlPqI",
+  authDomain: "project-polaris-statefarm.firebaseapp.com",
+  projectId: "project-polaris-statefarm",
+  storageBucket: "project-polaris-statefarm.firebasestorage.app",
+  messagingSenderId: "918316280295",
+  appId: "1:918316280295:web:1d5cd9584ad5f1b6f63542",
+  measurementId: "G-NFCNZMLTV1"
 };
 
 // Initialize Firebase
