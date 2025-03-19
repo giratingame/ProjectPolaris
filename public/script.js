@@ -1,4 +1,4 @@
-// script.js
+/*// script.js
 // Main Page Button Listeners (Event Delegation)
 if (window.location.pathname.endsWith('index.html')) {
     document.addEventListener('DOMContentLoaded', function() {
@@ -131,3 +131,4 @@ if (window.location.pathname.endsWith('schedule.html')) {
         });
     });
 }
+*/
