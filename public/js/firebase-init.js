@@ -1,8 +1,6 @@
 // firebase-init.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
-
+import * as firebaseui from 'https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js';
+import 'https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css';
 // Import Firebase Authentication and getAuth
 import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
 
