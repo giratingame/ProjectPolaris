@@ -10,12 +10,33 @@
     <div id="review-container">
         <h1>Review Classes</h1>
         <div id="class-list">
-            <div id="class-list">
-                <div>Test Class 1</div>
-                <div>Test Class 2</div>
-            </div>
-        <button id="review-back-button">Back</button>
+            <div>Test Class 1</div>
+            <div>Test Class 2</div>
+        </div>
+        <div id="firebaseui-container"></div>  <button id="review-back-button">Back</button>
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
+
+    <script type="module">
+        // Import Firebase initialization (replace with your actual path if needed)
+        import { initializeFirebase } from './js/firebase-init.js';
+
+        // Initialize Firebase
+        const firebaseApp = initializeFirebase();
+
+        // Initialize FirebaseUI
+        const ui = new firebaseui.auth.AuthUI(firebase.auth(firebaseApp));
+        ui.start('#firebaseui-container', {
+            signInOptions: [
+                firebase.auth.EmailAuthProvider.PROVIDER_ID
+            ],
+            // Other UI config
+        });
+    </script>
+
     <script src="js/review.js" type="module"></script>
 </body>
 </html>
