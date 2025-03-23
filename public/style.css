@@ -94,7 +94,6 @@ body {
     padding: 15px 30px;
     border: none;
     cursor: pointer;
-    align-self: flex-end;
     margin-top: 20px;
 }
 
@@ -105,6 +104,9 @@ body {
     padding: 50px;
     background-color: var(--gray);
     color: var(--sky-blue);
+    display: flex;
+    flex-direction: column; /* Add this */
+    min-height: 100vh; /* Add this */
 }
 
 #class-list {
@@ -133,5 +135,7 @@ body {
     padding: 15px 30px;
     border: none;
     cursor: pointer;
-    margin-top: 20px;
+    align-self: center; /* Center the button */
+    margin-top: auto; /* Push it to the bottom */
+    margin-bottom: 20px; /* Add some bottom margin */
 }
