@@ -1,1 +1,2 @@
 AddType application/javascript .js
+AddType text/css .css
