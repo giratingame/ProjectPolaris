@@ -38,6 +38,10 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Back button clicked'); // Added console log
             window.location.href = 'index.html';
         });
+        // Add this debugging code:
+        setTimeout(function() {
+            backButton.click(); // Simulate a click after 2 seconds
+        }, 2000);
     } else {
         console.log("Back button not found."); // added console log.
     }
