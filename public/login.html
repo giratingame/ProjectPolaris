@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico">
 </head>
 <body>
     <div id="main-container">
@@ -16,6 +17,7 @@
     </div>
     <script type="module">
         import { startFirebaseUI } from './firebase-init.js';
+        console.log('Module imported, startFirebaseUI:', startFirebaseUI);
         window.startFirebaseUI = startFirebaseUI;
     </script>
 </body>
