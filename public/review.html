@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Review Classes</title>
     <link rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css">
 </head>
+
 <body>
     <div id="review-container">
         <h1>Review Classes</h1>
@@ -13,26 +15,21 @@
             <div>Test Class 1</div>
             <div>Test Class 2</div>
         </div>
-        <div id="firebaseui-container"></div>  <button id="review-back-button">Back</button>
+        <div id="firebaseui-auth-container"></div>
+        <button id="review-back-button">Back</button>
     </div>
 
     <script type="module">
-        import { initializeFirebase } from './js/firebase-init.js';
+        import {
+            auth,
+            startFirebaseUI
+        } from './js/firebase-init.js';
 
-        // Initialize Firebase
-        const { app, auth } = initializeFirebase();
-
-        // Initialize FirebaseUI
-        import * as firebaseui from 'firebaseui';
-        const ui = new firebaseui.auth.AuthUI(auth); // Use auth from firebase-init
-        ui.start('#firebaseui-container', {
-            signInOptions: [
-                firebase.auth.EmailAuthProvider.PROVIDER_ID
-            ],
-            // Other UI config
-        });
+        // Start FirebaseUI Authentication
+        startFirebaseUI();
     </script>
 
     <script src="js/review.js" type="module"></script>
 </body>
+
 </html>
