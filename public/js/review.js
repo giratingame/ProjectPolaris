@@ -24,6 +24,11 @@ async function fetchCourses() {
     });
 }
 
+window.addEventListener("load", function() {
+    // Ensure styles are loaded before running any UI scripts
+    console.log("Page fully loaded, running scripts.");
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOMContentLoaded event fired on review.html'); // Added console log
 
