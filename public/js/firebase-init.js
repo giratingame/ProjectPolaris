@@ -1,12 +1,13 @@
-// firebase-init.js
-import * as firebaseui from 'https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js';
-import 'https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css';
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+
 // Import Firebase Authentication and getAuth
 import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
 
 // Import FirebaseUI
-import * as firebaseui from 'https://cdn.firebase.com/libs/firebaseui/4.8.1/firebaseui.js';
-import 'https://cdn.firebase.com/libs/firebaseui/4.8.1/firebaseui.css'; // Import FirebaseUI CSS (or include it in your HTML)
+import * as firebaseui from 'https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js';
+import 'https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -47,8 +48,8 @@ const uiConfig = {
       document.getElementById('loader').style.display = 'none'; // Use optional chaining
     }
   },
-  tosUrl: '<your-tos-url>', // Replace with your actual ToS URL
-  privacyPolicyUrl: '<your-privacy-policy-url>' // Replace with your actual privacy policy URL
+  tosUrl: 'https://example.com/tos', // Use a placeholder for now
+  privacyPolicyUrl: 'https://example.com/privacy' // Use a placeholder for now
 };
 
 // Start FirebaseUI (call this function when you want the sign-in UI to appear)
