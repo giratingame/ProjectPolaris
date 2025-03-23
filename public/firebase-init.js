@@ -46,10 +46,7 @@ const uiConfig = {
     },
     uiShown: () => {
       // Hide the loader
-      const loaderElement = document.getElementById('loader');
-      if (loaderElement) {
-        loaderElement.style.display = 'none';
-      }
+      document.getElementById('loader')?.style.display = 'none'; // Use optional chaining
     }
   },
   tosUrl: '<your-tos-url>', // Replace with your actual ToS URL
