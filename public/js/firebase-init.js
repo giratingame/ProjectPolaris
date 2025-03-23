@@ -7,7 +7,7 @@ import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/
 
 // Import FirebaseUI
 import * as firebaseui from 'https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js';
-//import 'https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css';
+import 'https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
