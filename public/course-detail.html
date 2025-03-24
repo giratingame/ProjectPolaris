@@ -1,112 +1,260 @@
-const displayReviewBars = async (courseId) => {
-    // Replace with your Firebase initialization and firestore reference
-    const db = firebase.firestore();
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Course Details</title>
+    <style>
+        /* Basic styling for the course details */
+        .detail-label {
+            font-weight: bold;
+        }
+        .detail-value {
+            margin-bottom: 10px;
+        }
+        /* Style for the review bars */
+        .review-category {
+            margin-top: 10px;
+        }
+        .review-bar-container {
+            width: 100%;
+            background-color: #f0f0f0;
+            margin-top: 5px;
+        }
+        .review-bar {
+            width: 0%;
+            height: 20px;
+        }
+        #rigor-bar {
+            background-color: #2196f3; /* Blue */
+        }
+        #workload-bar {
+            background-color: #4caf50; /* Green */
+        }
+        #involvement-bar {
+            background-color: #ff9800; /* Orange */
+        }
+        #homework-bar {
+            background-color: #9c27b0; /* Purple */
+        }
+    </style>
+</head>
+<body>
+    <h1>Course Details</h1>
+    <div id="course-details">
+        </div>
 
-    try {
-        const reviewsDoc = await db.collection('reviews').doc(courseId).get();
+    <div class="review-category">
+        <span class="detail-label">Subject Rigor:</span>
+        <span id="rigor-score"></span>
+        <div class="review-bar-container">
+            <div id="rigor-bar" class="review-bar"></div>
+        </div>
+    </div>
 
-        if (reviewsDoc.exists) {
-            const reviewsData = reviewsDoc.data();
-            const teachersMap = reviewsData.teachers; // Access the 'teachers' map
-            let homework = 0;
-            let subjectRigor = 0;
-            let teacherInvolvement = 0;
-            let workload = 0;
-            let reviewCount = 0;
+    <div class="review-category">
+        <span class="detail-label">Workload:</span>
+        <span id="workload-score"></span>
+        <div class="review-bar-container">
+            <div id="workload-bar" class="review-bar"></div>
+        </div>
+    </div>
 
-            // Iterate through the teachers in the 'teachers' map
-            for (const teacher in teachersMap) {
-                const reviewArray = teachersMap[teacher]; // Get the array of review references
+    <div class="review-category">
+        <span class="detail-label">Teacher Involvement:</span>
+        <span id="involvement-score"></span>
+        <div class="review-bar-container">
+            <div id="involvement-bar" class="review-bar"></div>
+        </div>
+    </div>
 
-                // Iterate through the array of review references (if it exists)
-                if (reviewArray && Array.isArray(reviewArray)) {
-                    for (const reviewRef of reviewArray) {
-                        try {
-                            // Check if reviewRef is a DocumentReference
-                            if (reviewRef instanceof firebase.firestore.DocumentReference) {
-                                const userReviewDoc = await reviewRef.get();
-                                if (userReviewDoc.exists) {
-                                    const userReview = userReviewDoc.data();
-                                    // Check if review data is valid before using it
-                                    if (userReview &&
-                                        typeof userReview.homework === 'number' &&
-                                        typeof userReview.subjectRigor === 'number' &&
-                                        typeof userReview.teacherInvolvement === 'number' &&
-                                        typeof userReview.workload === 'number') {
-                                        // Sum up review scores
-                                        homework += userReview.homework;
-                                        subjectRigor += userReview.subjectRigor;
-                                        teacherInvolvement += userReview.teacherInvolvement;
-                                        workload += userReview.workload;
-                                        reviewCount++;
+    <div class="review-category">
+        <span class="detail-label">Homework:</span>
+        <span id="homework-score"></span>
+        <div class="review-bar-container">
+            <div id="homework-bar" class="review-bar"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const courseDetailsDiv = document.getElementById('course-details');
+            const rigorScoreSpan = document.getElementById('rigor-score');
+            const workloadScoreSpan = document.getElementById('workload-score');
+            const involvementScoreSpan = document.getElementById('involvement-score');
+            const homeworkScoreSpan = document.getElementById('homework-score');
+            const rigorBar = document.getElementById('rigor-bar');
+            const workloadBar = document.getElementById('workload-bar');
+            const involvementBar = document.getElementById('involvement-bar');
+            const homeworkBar = document.getElementById('homework-bar');
+
+            // Function to get the course ID from the query parameter
+            const getCourseId = () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get('courseId');
+            };
+
+            // Function to fetch and display course details from Firestore
+            const fetchCourseDetails = async (courseId) => {
+                // Replace with your Firebase initialization and firestore reference
+                const db = firebase.firestore(); // Get Firestore reference
+
+                try {
+                    const courseDoc = await db.collection('courses').doc(courseId).get();
+
+                    if (courseDoc.exists) {
+                        const courseData = courseDoc.data();
+
+                        // Create and append elements to display course details
+                        const courseCodeDiv = document.createElement('div');
+                        courseCodeDiv.classList.add('detail-item');
+                        courseCodeDiv.innerHTML = `<span class="detail-label">Course Code:</span> <span class="detail-value">${courseData.courseCode}</span>`;
+                        courseDetailsDiv.appendChild(courseCodeDiv);
+
+                        const courseNameDiv = document.createElement('div');
+                        courseNameDiv.classList.add('detail-item');
+                        courseNameDiv.innerHTML = `<span class="detail-label">Course Name:</span> <span class="detail-value">${courseData.courseName}</span>`;
+                        courseDetailsDiv.appendChild(courseNameDiv);
+
+                        const creditsDiv = document.createElement('div');
+                        creditsDiv.classList.add('detail-item');
+                        creditsDiv.innerHTML = `<span class="detail-label">Credits:</span> <span class="detail-value">${courseData.credits}</span>`;
+                        courseDetailsDiv.appendChild(creditsDiv);
+
+                        // Add other details as needed...
+
+                        // Display individual review bars
+                        displayReviewBars(courseId);
+
+                    } else {
+                        courseDetailsDiv.textContent = 'Course not found.';
+                    }
+                } catch (error) {
+                    console.error('Error fetching course details:', error);
+                    courseDetailsDiv.textContent = 'Error loading course details.';
+                }
+            };
+
+            const displayReviewBars = async (courseId) => {
+            // Replace with your Firebase initialization and firestore reference
+            const db = firebase.firestore();
+        
+            try {
+                const reviewsDoc = await db.collection('reviews').doc(courseId).get();
+        
+                if (reviewsDoc.exists) {
+                    const reviewsData = reviewsDoc.data();
+                    const teachersMap = reviewsData.teachers; // Access the 'teachers' map
+                    let homework = 0;
+                    let subjectRigor = 0;
+                    let teacherInvolvement = 0;
+                    let workload = 0;
+                    let reviewCount = 0;
+        
+                    // Iterate through the teachers in the 'teachers' map
+                    for (const teacher in teachersMap) {
+                        const reviewArray = teachersMap[teacher]; // Get the array of review references
+        
+                        // Iterate through the array of review references (if it exists)
+                        if (reviewArray && Array.isArray(reviewArray)) {
+                            for (const reviewRef of reviewArray) {
+                                try {
+                                    // Check if reviewRef is a DocumentReference
+                                    if (reviewRef instanceof firebase.firestore.DocumentReference) {
+                                        const userReviewDoc = await reviewRef.get();
+                                        if (userReviewDoc.exists) {
+                                            const userReview = userReviewDoc.data();
+                                            // Check if review data is valid before using it
+                                            if (userReview &&
+                                                typeof userReview.homework === 'number' &&
+                                                typeof userReview.subjectRigor === 'number' &&
+                                                typeof userReview.teacherInvolvement === 'number' &&
+                                                typeof userReview.workload === 'number') {
+                                                // Sum up review scores
+                                                homework += userReview.homework;
+                                                subjectRigor += userReview.subjectRigor;
+                                                teacherInvolvement += userReview.teacherInvolvement;
+                                                workload += userReview.workload;
+                                                reviewCount++;
+                                            } else {
+                                                console.warn(`Invalid review data in user review:`, userReview);
+                                            }
+                                        } else {
+                                            console.warn(`User review document not found:`, reviewRef.path);
+                                        }
                                     } else {
-                                        console.warn(`Invalid review data in user review:`, userReview);
+                                        console.warn(`Unexpected data type for user review reference:`, reviewRef);
                                     }
-                                } else {
-                                    console.warn(`User review document not found:`, reviewRef.path);
+                                } catch (error) {
+                                    console.error(`Error fetching user review:`, error);
                                 }
-                            } else {
-                                console.warn(`Unexpected data type for user review reference:`, reviewRef);
                             }
-                        } catch (error) {
-                            console.error(`Error fetching user review:`, error);
+                        } else {
+                            console.warn(`No review array or invalid array for teacher: ${teacher}`);
                         }
                     }
+        
+                    if (reviewCount > 0) {
+                        // Calculate average for each category
+                        const avgHomework = homework / reviewCount;
+                        const avgSubjectRigor = subjectRigor / reviewCount;
+                        const avgTeacherInvolvement = teacherInvolvement / reviewCount;
+                        const avgWorkload = workload / reviewCount;
+        
+                        // Display average scores
+                        homeworkScoreSpan.textContent = avgHomework.toFixed(2);
+                        rigorScoreSpan.textContent = avgSubjectRigor.toFixed(2);
+                        involvementScoreSpan.textContent = avgTeacherInvolvement.toFixed(2);
+                        workloadScoreSpan.textContent = avgWorkload.toFixed(2);
+        
+                        // Update the width of the review bars
+                        rigorBar.style.width = (avgSubjectRigor / 5) * 100 + '%';
+                        workloadBar.style.width = (avgWorkload / 5) * 100 + '%';
+                        involvementBar.style.width = (avgTeacherInvolvement / 5) * 100 + '%';
+                        homeworkBar.style.width = (avgHomework / 5) * 100 + '%';
+                    } else {
+                        // Set default values if there are no reviews
+                        homeworkScoreSpan.textContent = 'No reviews';
+                        rigorScoreSpan.textContent = 'No reviews';
+                        involvementScoreSpan.textContent = 'No reviews';
+                        workloadScoreSpan.textContent = 'No reviews';
+                        rigorBar.style.width = '0%';
+                        workloadBar.style.width = '0%';
+                        involvementBar.style.width = '0%';
+                        homeworkBar.style.width = '0%';
+                    }
                 } else {
-                    console.warn(`No review array or invalid array for teacher: ${teacher}`);
+                    // Handle the case where the reviews document doesn't exist
+                    homeworkScoreSpan.textContent = 'No reviews';
+                    rigorScoreSpan.textContent = 'No reviews';
+                    involvementScoreSpan.textContent = 'No reviews';
+                    workloadScoreSpan.textContent = 'No reviews';
+                    rigorBar.style.width = '0%';
+                    workloadBar.style.width = '0%';
+                    involvementBar.style.width = '0%';
+                    homeworkBar.style.width = '0%';
                 }
-            }
-
-            if (reviewCount > 0) {
-                // Calculate average for each category
-                const avgHomework = homework / reviewCount;
-                const avgSubjectRigor = subjectRigor / reviewCount;
-                const avgTeacherInvolvement = teacherInvolvement / reviewCount;
-                const avgWorkload = workload / reviewCount;
-
-                // Display average scores
-                homeworkScoreSpan.textContent = avgHomework.toFixed(2);
-                rigorScoreSpan.textContent = avgSubjectRigor.toFixed(2);
-                involvementScoreSpan.textContent = avgTeacherInvolvement.toFixed(2);
-                workloadScoreSpan.textContent = avgWorkload.toFixed(2);
-
-                // Update the width of the review bars
-                rigorBar.style.width = (avgSubjectRigor / 5) * 100 + '%';
-                workloadBar.style.width = (avgWorkload / 5) * 100 + '%';
-                involvementBar.style.width = (avgTeacherInvolvement / 5) * 100 + '%';
-                homeworkBar.style.width = (avgHomework / 5) * 100 + '%';
-            } else {
-                // Set default values if there are no reviews
-                homeworkScoreSpan.textContent = 'No reviews';
-                rigorScoreSpan.textContent = 'No reviews';
-                involvementScoreSpan.textContent = 'No reviews';
-                workloadScoreSpan.textContent = 'No reviews';
+            } catch (error) {
+                // Handle errors during review fetching
+                console.error('Error calculating and displaying review bars:', error);
+                homeworkScoreSpan.textContent = 'Error loading reviews';
+                rigorScoreSpan.textContent = 'Error loading reviews';
+                involvementScoreSpan.textContent = 'Error loading reviews';
+                workloadScoreSpan.textContent = 'Error loading reviews';
                 rigorBar.style.width = '0%';
                 workloadBar.style.width = '0%';
                 involvementBar.style.width = '0%';
                 homeworkBar.style.width = '0%';
             }
-        } else {
-            // Handle the case where the reviews document doesn't exist
-            homeworkScoreSpan.textContent = 'No reviews';
-            rigorScoreSpan.textContent = 'No reviews';
-            involvementScoreSpan.textContent = 'No reviews';
-            workloadScoreSpan.textContent = 'No reviews';
-            rigorBar.style.width = '0%';
-            workloadBar.style.width = '0%';
-            involvementBar.style.width = '0%';
-            homeworkBar.style.width = '0%';
-        }
-    } catch (error) {
-        // Handle errors during review fetching
-        console.error('Error calculating and displaying review bars:', error);
-        homeworkScoreSpan.textContent = 'Error loading reviews';
-        rigorScoreSpan.textContent = 'Error loading reviews';
-        involvementScoreSpan.textContent = 'Error loading reviews';
-        workloadScoreSpan.textContent = 'Error loading reviews';
-        rigorBar.style.width = '0%';
-        workloadBar.style.width = '0%';
-        involvementBar.style.width = '0%';
-        homeworkBar.style.width = '0%';
-    }
-};
+        };
+            const courseId = getCourseId();
+            if (courseId) {
+                fetchCourseDetails(courseId);
+            } else {
+                courseDetailsDiv.textContent = 'No course ID provided.';
+            }
+        });
+    </script>
+    <script src="/__/firebase/8.6.8/firebase-app.js"></script>
+    <script src="/__/firebase/8.6.8/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js"></script>
+</body>
+</html>
