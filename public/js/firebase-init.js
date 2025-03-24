@@ -22,4 +22,4 @@ const db = getFirestore(app);
 // Initialize Firebase Authentication
 const auth = getAuth(app);
 
-export { app, db, analytics, auth };
+export { app, db, analytics, auth, GoogleAuthProvider };
