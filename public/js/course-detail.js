@@ -33,7 +33,7 @@ const fetchTeacherReviews = async (courseId) => {
         const db = firebase.firestore();
         const teachersSnapshot = await db.collection('courses').doc(courseId).collection('Teachers').get();
         // Initialize teacherReviews as an empty array
-        const teacherReviews =;
+        let teacherReviews = [];
 
         for (const teacherDoc of teachersSnapshot.docs) {
             const teacherName = teacherDoc.id;
