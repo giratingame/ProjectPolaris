@@ -133,96 +133,61 @@
                 }
             };
 
-            const displayReviewBars = async (courseId) => {
-            // Replace with your Firebase initialization and firestore reference
+            const displayReviewBars = async (courseId, teacherId) => {
+            // Replace with your Firebase initialization
             const db = firebase.firestore();
         
             try {
-                const reviewsDoc = await db.collection('reviews').doc(courseId).get();
+                // Get a reference to the 'reviews' subcollection for the teacher
+                const reviewsRef = db.collection('courses').doc(courseId)
+                    .collection('teachers').doc(teacherId)
+                    .collection('reviews');
         
-                if (reviewsDoc.exists) {
-                    const reviewsData = reviewsDoc.data();
-                    const teachersMap = reviewsData.teachers; // Access the 'teachers' map
-                    let homework = 0;
-                    let subjectRigor = 0;
-                    let teacherInvolvement = 0;
-                    let workload = 0;
-                    let reviewCount = 0;
+                const reviewsSnapshot = await reviewsRef.get();
+                let homework = 0;
+                let subjectRigor = 0;
+                let teacherInvolvement = 0;
+                let workload = 0;
+                let reviewCount = 0;
         
-                    // Iterate through the teachers in the 'teachers' map
-                    for (const teacher in teachersMap) {
-                        const reviewArray = teachersMap[teacher]; // Get the array of review references
-        
-                        // Iterate through the array of review references (if it exists)
-                        if (reviewArray && Array.isArray(reviewArray)) {
-                            for (const reviewRef of reviewArray) {
-                                try {
-                                    // Check if reviewRef is a DocumentReference
-                                    if (reviewRef instanceof firebase.firestore.DocumentReference) {
-                                        const userReviewDoc = await reviewRef.get();
-                                        if (userReviewDoc.exists) {
-                                            const userReview = userReviewDoc.data();
-                                            // Check if review data is valid before using it
-                                            if (userReview &&
-                                                typeof userReview.homework === 'number' &&
-                                                typeof userReview.subjectRigor === 'number' &&
-                                                typeof userReview.teacherInvolvement === 'number' &&
-                                                typeof userReview.workload === 'number') {
-                                                // Sum up review scores
-                                                homework += userReview.homework;
-                                                subjectRigor += userReview.subjectRigor;
-                                                teacherInvolvement += userReview.teacherInvolvement;
-                                                workload += userReview.workload;
-                                                reviewCount++;
-                                            } else {
-                                                console.warn(`Invalid review data in user review:`, userReview);
-                                            }
-                                        } else {
-                                            console.warn(`User review document not found:`, reviewRef.path);
-                                        }
-                                    } else {
-                                        console.warn(`Unexpected data type for user review reference:`, reviewRef);
-                                    }
-                                } catch (error) {
-                                    console.error(`Error fetching user review:`, error);
-                                }
-                            }
-                        } else {
-                            console.warn(`No review array or invalid array for teacher: ${teacher}`);
-                        }
-                    }
-        
-                    if (reviewCount > 0) {
-                        // Calculate average for each category
-                        const avgHomework = homework / reviewCount;
-                        const avgSubjectRigor = subjectRigor / reviewCount;
-                        const avgTeacherInvolvement = teacherInvolvement / reviewCount;
-                        const avgWorkload = workload / reviewCount;
-        
-                        // Display average scores
-                        homeworkScoreSpan.textContent = avgHomework.toFixed(2);
-                        rigorScoreSpan.textContent = avgSubjectRigor.toFixed(2);
-                        involvementScoreSpan.textContent = avgTeacherInvolvement.toFixed(2);
-                        workloadScoreSpan.textContent = avgWorkload.toFixed(2);
-        
-                        // Update the width of the review bars
-                        rigorBar.style.width = (avgSubjectRigor / 5) * 100 + '%';
-                        workloadBar.style.width = (avgWorkload / 5) * 100 + '%';
-                        involvementBar.style.width = (avgTeacherInvolvement / 5) * 100 + '%';
-                        homeworkBar.style.width = (avgHomework / 5) * 100 + '%';
+                reviewsSnapshot.forEach((reviewDoc) => {
+                    const userReview = reviewDoc.data();
+                    // Check if review data is valid before using it
+                    if (userReview &&
+                        typeof userReview.homework === 'number' &&
+                        typeof userReview.subjectRigor === 'number' &&
+                        typeof userReview.teacherInvolvement === 'number' &&
+                        typeof userReview.workload === 'number') {
+                        homework += userReview.homework;
+                        subjectRigor += userReview.subjectRigor;
+                        teacherInvolvement += userReview.teacherInvolvement;
+                        workload += userReview.workload;
+                        reviewCount++;
                     } else {
-                        // Set default values if there are no reviews
-                        homeworkScoreSpan.textContent = 'No reviews';
-                        rigorScoreSpan.textContent = 'No reviews';
-                        involvementScoreSpan.textContent = 'No reviews';
-                        workloadScoreSpan.textContent = 'No reviews';
-                        rigorBar.style.width = '0%';
-                        workloadBar.style.width = '0%';
-                        involvementBar.style.width = '0%';
-                        homeworkBar.style.width = '0%';
+                        console.warn(`Invalid review data in user review:`, userReview);
                     }
+                });
+        
+                if (reviewCount > 0) {
+                    // Calculate average for each category
+                    const avgHomework = homework / reviewCount;
+                    const avgSubjectRigor = subjectRigor / reviewCount;
+                    const avgTeacherInvolvement = teacherInvolvement / reviewCount;
+                    const avgWorkload = workload / reviewCount;
+        
+                    // Display average scores
+                    homeworkScoreSpan.textContent = avgHomework.toFixed(2);
+                    rigorScoreSpan.textContent = avgSubjectRigor.toFixed(2);
+                    involvementScoreSpan.textContent = avgTeacherInvolvement.toFixed(2);
+                    workloadScoreSpan.textContent = avgWorkload.toFixed(2);
+        
+                    // Update the width of the review bars
+                    rigorBar.style.width = (avgSubjectRigor / 5) * 100 + '%';
+                    workloadBar.style.width = (avgWorkload / 5) * 100 + '%';
+                    involvementBar.style.width = (avgTeacherInvolvement / 5) * 100 + '%';
+                    homeworkBar.style.width = (avgHomework / 5) * 100 + '%';
                 } else {
-                    // Handle the case where the reviews document doesn't exist
+                    // Set default values if there are no reviews
                     homeworkScoreSpan.textContent = 'No reviews';
                     rigorScoreSpan.textContent = 'No reviews';
                     involvementScoreSpan.textContent = 'No reviews';
