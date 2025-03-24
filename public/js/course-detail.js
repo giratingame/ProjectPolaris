@@ -60,7 +60,7 @@ const displayCourseDetails = (courseData) => {
     if (courseData) {
         document.getElementById('course-title').textContent = courseData.courseName;
         document.getElementById('course-code').textContent = "Course Code: " + courseData.courseCode;
-        document.getElementById('course-description').textContent = courseData.description;
+        //document.getElementById('course-description').textContent = courseData.description; WHY DID IT ADD THIS :sob:
         // ... and so on, for other course information
     } else {
          document.getElementById('course-details').textContent = "Course not found";
