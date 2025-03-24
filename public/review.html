@@ -2,28 +2,17 @@
 <html>
 <head>
     <title>Course Reviews</title>
-    <link rel="stylesheet" href="style.css">
     <style>
-        /* Additional styles for the course list layout */
-        #course-list {
-            display: grid; /* Use grid layout */
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive columns */
-            grid-gap: 10px; /* Spacing between items */
-        }
+        /* Basic styling for the course list */
         .course-item {
             padding: 10px;
-            border: 1px solid #ccc; /* Keep the border for structure */
-            text-align: center; /* Center the content */
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
         }
         .course-link {
             text-decoration: none;
-            /*
-            color: blue;        <--  Remove this if color is in style.css
-            font-weight: bold;  <--  Remove this if font-weight is in style.css
-            */
-            display: block; /* Make the link fill the item */
-            width: 100%;
-            height: 100%;
+            color: blue;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -52,8 +41,8 @@
 
                         const courseLink = document.createElement('a');
                         courseLink.classList.add('course-link');
-                        courseLink.textContent = courseData.courseName;
-                        courseLink.href = `course-detail.html?courseId=${doc.id}`;
+                        courseLink.textContent = courseData.courseName; // Or any other field you want to display
+                        courseLink.href = `course-detail.html?courseId=${doc.id}`; // Link to the detailed page
 
                         courseDiv.appendChild(courseLink);
                         courseListDiv.appendChild(courseDiv);
