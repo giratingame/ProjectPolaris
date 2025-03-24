@@ -3,19 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <title>Course Detail</title>
+    <style>
+        /* Basic styling for the course details */
+        .detail-label {
+            font-weight: bold;
+        }
+
+        .detail-value {
+            margin-bottom: 10px;
+        }
+
+        /* Style for the review bars */
+        .review-category {
+            margin-top: 10px;
+        }
+
+        .review-bar-container {
+            width: 100%;
+            background-color: #f0f0f0;
+            margin-top: 5px;
+        }
+
+        .review-bar {
+            width: 0%;
+            height: 20px;
+        }
+
+        #rigor-bar {
+            background-color: #2196f3;
+            /* Blue */
+        }
+
+        #workload-bar {
+            background-color: #4caf50;
+            /* Green */
+        }
+
+        #involvement-bar {
+            background-color: #ff9800;
+            /* Orange */
+        }
+
+        #homework-bar {
+            background-color: #9c27b0;
+            /* Purple */
+        }
+    </style>
 </head>
 <body>
+    <h1>Course Details</h1>
     <div id="course-details">
         <h1 id="course-title"></h1>
         <p id="course-code"></p>
         <p id="course-description"></p>
+    </div>
+    <div id="error-message" style="color: red;"></div>
+    <div class="review-category">
+        <span class="detail-label">Subject Rigor:</span>
+        <span id="rigor-score"></span>
+        <div class="review-bar-container">
+            <div id="rigor-bar" class="review-bar"></div>
         </div>
-
-    <div id="teacher-reviews">
+    </div>
+    <div class="review-category">
+        <span class="detail-label">Workload:</span>
+        <span id="workload-score"></span>
+        <div class="review-bar-container">
+            <div id="workload-bar" class="review-bar"></div>
         </div>
+    </div>
+    <div class="review-category">
+        <span class="detail-label">Teacher Involvement:</span>
+        <span id="involvement-score"></span>
+        <div class="review-bar-container">
+            <div id="involvement-bar" class="review-bar"></div>
+        </div>
+    </div>
+    <div class="review-category">
+        <span class="detail-label">Homework:</span>
+        <span id="homework-score"></span>
+        <div class="review-bar-container">
+            <div id="homework-bar" class="review-bar"></div>
+        </div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="js/firebase-init.js"></script>
     <script src="js/course-detail.js"></script>
 </body>
 </html>
