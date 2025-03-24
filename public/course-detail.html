@@ -10,21 +10,30 @@
         .detail-value {
             margin-bottom: 10px;
         }
-        /* Style for the average review display */
-        #average-review {
-            font-size: 1.2em;
+        /* Style for the review bars */
+        .review-category {
             margin-top: 10px;
         }
-        /* Style for the visual bar */
-        #review-bar-container {
+        .review-bar-container {
             width: 100%;
-            background-color: #f0f0f0; /* Light grey background */
+            background-color: #f0f0f0;
             margin-top: 5px;
         }
-        #review-bar {
-            width: 0%; /* Initial width */
+        .review-bar {
+            width: 0%;
             height: 20px;
-            background-color: #4caf50; /* Green color for the bar */
+        }
+        #rigor-bar {
+            background-color: #2196f3; /* Blue */
+        }
+        #workload-bar {
+            background-color: #4caf50; /* Green */
+        }
+        #involvement-bar {
+            background-color: #ff9800; /* Orange */
+        }
+        #homework-bar {
+            background-color: #9c27b0; /* Purple */
         }
     </style>
 </head>
@@ -32,19 +41,50 @@
     <h1>Course Details</h1>
     <div id="course-details">
         </div>
-    <div id="average-review">
-        <span class="detail-label">Average Review:</span>
-        <span id="average-score"></span>
+
+    <div class="review-category">
+        <span class="detail-label">Subject Rigor:</span>
+        <span id="rigor-score"></span>
+        <div class="review-bar-container">
+            <div id="rigor-bar" class="review-bar"></div>
+        </div>
     </div>
-    <div id="review-bar-container">
-        <div id="review-bar"></div>
+
+    <div class="review-category">
+        <span class="detail-label">Workload:</span>
+        <span id="workload-score"></span>
+        <div class="review-bar-container">
+            <div id="workload-bar" class="review-bar"></div>
+        </div>
+    </div>
+
+    <div class="review-category">
+        <span class="detail-label">Teacher Involvement:</span>
+        <span id="involvement-score"></span>
+        <div class="review-bar-container">
+            <div id="involvement-bar" class="review-bar"></div>
+        </div>
+    </div>
+
+    <div class="review-category">
+        <span class="detail-label">Homework:</span>
+        <span id="homework-score"></span>
+        <div class="review-bar-container">
+            <div id="homework-bar" class="review-bar"></div>
+        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const courseDetailsDiv = document.getElementById('course-details');
-            const averageScoreSpan = document.getElementById('average-score');
-            const reviewBar = document.getElementById('review-bar');
+            const rigorScoreSpan = document.getElementById('rigor-score');
+            const workloadScoreSpan = document.getElementById('workload-score');
+            const involvementScoreSpan = document.getElementById('involvement-score');
+            const homeworkScoreSpan = document.getElementById('homework-score');
+            const rigorBar = document.getElementById('rigor-bar');
+            const workloadBar = document.getElementById('workload-bar');
+            const involvementBar = document.getElementById('involvement-bar');
+            const homeworkBar = document.getElementById('homework-bar');
 
             // Function to get the course ID from the query parameter
             const getCourseId = () => {
@@ -81,8 +121,8 @@
 
                         // Add other details as needed...
 
-                        // Calculate and display average review
-                        calculateAndDisplayAverage(courseId);
+                        // Display individual review bars
+                        displayReviewBars(courseId);
 
                     } else {
                         courseDetailsDiv.textContent = 'Course not found.';
@@ -93,17 +133,20 @@
                 }
             };
 
-            // Function to calculate and display the average review
-            const calculateAndDisplayAverage = async (courseId) => {
+            // Function to display individual review bars
+            const displayReviewBars = async (courseId) => {
                 // Replace with your Firebase initialization and firestore reference
-                const db = firebase.firestore(); // Get Firestore reference
+                const db = firebase.firestore();
 
                 try {
                     const reviewsDoc = await db.collection('reviews').doc(courseId).get();
 
                     if (reviewsDoc.exists) {
                         const reviewsData = reviewsDoc.data();
-                        let totalScore = 0;
+                        let homework = 0;
+                        let subjectRigor = 0;
+                        let teacherInvolvement = 0;
+                        let workload = 0;
                         let reviewCount = 0;
 
                         // Iterate through the reviews (assuming they are stored as a map)
@@ -113,34 +156,67 @@
                                 const userReviewDoc = await userReviewRef.get();
                                 if (userReviewDoc.exists) {
                                     const userReview = userReviewDoc.data();
-                                    // Calculate average based on numerical review fields
-                                    totalScore += userReview.homework;
-                                    totalScore += userReview.subjectRigor;
-                                    totalScore += userReview.teacherInvolvement;
-                                    totalScore += userReview.workload;
-                                    reviewCount += 4; // Assuming 4 numerical review fields
+                                    // Sum up review scores
+                                    homework += userReview.homework;
+                                    subjectRigor += userReview.subjectRigor;
+                                    teacherInvolvement += userReview.teacherInvolvement;
+                                    workload += userReview.workload;
+                                    reviewCount++;
                                 }
                             }
                         }
 
                         if (reviewCount > 0) {
-                            const averageScore = totalScore / reviewCount;
-                            averageScoreSpan.textContent = averageScore.toFixed(2); // Display average with 2 decimal places
-                            // Update the width of the review bar
-                            const percentage = (averageScore / 5) * 100;
-                            reviewBar.style.width = percentage + '%';
+                            // Calculate average for each category
+                            const avgHomework = homework / reviewCount;
+                            const avgSubjectRigor = subjectRigor / reviewCount;
+                            const avgTeacherInvolvement = teacherInvolvement / reviewCount;
+                            const avgWorkload = workload / reviewCount;
+
+                            // Display average scores
+                            homeworkScoreSpan.textContent = avgHomework.toFixed(2);
+                            rigorScoreSpan.textContent = avgSubjectRigor.toFixed(2);
+                            involvementScoreSpan.textContent = avgTeacherInvolvement.toFixed(2);
+                            workloadScoreSpan.textContent = avgWorkload.toFixed(2);
+
+                            // Update the width of the review bars
+                            rigorBar.style.width = (avgSubjectRigor / 5) * 100 + '%';
+                            workloadBar.style.width = (avgWorkload / 5) * 100 + '%';
+                            involvementBar.style.width = (avgTeacherInvolvement / 5) * 100 + '%';
+                            homeworkBar.style.width = (avgHomework / 5) * 100 + '%';
                         } else {
-                            averageScoreSpan.textContent = 'No reviews yet';
-                            reviewBar.style.width = '0%';
+                            // Set default values if there are no reviews
+                            homeworkScoreSpan.textContent = 'No reviews';
+                            rigorScoreSpan.textContent = 'No reviews';
+                            involvementScoreSpan.textContent = 'No reviews';
+                            workloadScoreSpan.textContent = 'No reviews';
+                            rigorBar.style.width = '0%';
+                            workloadBar.style.width = '0%';
+                            involvementBar.style.width = '0%';
+                            homeworkBar.style.width = '0%';
                         }
                     } else {
-                        averageScoreSpan.textContent = 'No reviews yet';
-                        reviewBar.style.width = '0%';
+                        // Handle the case where the reviews document doesn't exist
+                        homeworkScoreSpan.textContent = 'No reviews';
+                        rigorScoreSpan.textContent = 'No reviews';
+                        involvementScoreSpan.textContent = 'No reviews';
+                        workloadScoreSpan.textContent = 'No reviews';
+                        rigorBar.style.width = '0%';
+                        workloadBar.style.width = '0%';
+                        involvementBar.style.width = '0%';
+                        homeworkBar.style.width = '0%';
                     }
                 } catch (error) {
-                    console.error('Error calculating average review:', error);
-                    averageScoreSpan.textContent = 'Error loading reviews';
-                    reviewBar.style.width = '0%';
+                    // Handle errors during review fetching
+                    console.error('Error calculating and displaying review bars:', error);
+                    homeworkScoreSpan.textContent = 'Error loading reviews';
+                    rigorScoreSpan.textContent = 'Error loading reviews';
+                    involvementScoreSpan.textContent = 'Error loading reviews';
+                    workloadScoreSpan.textContent = 'Error loading reviews';
+                    rigorBar.style.width = '0%';
+                    workloadBar.style.width = '0%';
+                    involvementBar.style.width = '0%';
+                    homeworkBar.style.width = '0%';
                 }
             };
 
