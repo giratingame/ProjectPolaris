@@ -1,35 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Review Classes</title>
     <link rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css">
 </head>
-
 <body>
     <div id="review-container">
         <h1>Review Classes</h1>
         <div id="class-list">
-            <div>Test Class 1</div>
-            <div>Test Class 2</div>
-        </div>
-        <div id="firebaseui-auth-container"></div>
+            <div id="class-list">
+                <div>Test Class 1</div>
+                <div>Test Class 2</div>
+            </div>
         <button id="review-back-button">Back</button>
     </div>
-
-    <script type="module">
-        import {
-            auth,
-            startFirebaseUI
-        } from './js/firebase-init.js';
-
-        // Start FirebaseUI Authentication
-        startFirebaseUI();
-    </script>
-
     <script src="js/review.js" type="module"></script>
 </body>
-
 </html>
