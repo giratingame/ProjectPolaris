@@ -17,17 +17,25 @@
         <div id="firebaseui-auth-container"></div>
     </div>
     <script type="module">
+        // Import Firebase and FirebaseUI modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
         import * as firebaseui from 'https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js';
-        import { app, auth } from './js/firebase-init.js';
 
-        // Dynamically load the FirebaseUI CSS
-        const loadFirebaseUICSS = () => {
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = 'https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css';
-            document.head.appendChild(link);
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID",
+            measurementId: "YOUR_MEASUREMENT_ID"
         };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
         // Initialize FirebaseUI
         const ui = new firebaseui.auth.AuthUI(auth);
@@ -53,10 +61,10 @@
 
         // Start FirebaseUI
         function startFirebaseUI() {
-            loadFirebaseUICSS();
             ui.start('#firebaseui-auth-container', uiConfig);
         }
 
+        // Make startFirebaseUI available globally
         window.startFirebaseUI = startFirebaseUI;
     </script>
 </body>
