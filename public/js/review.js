@@ -4,7 +4,9 @@ import { db } from './firebase-init.js';
 
 async function fetchCourses() {
     const classList = document.getElementById('class-list');
-    classList.innerHTML = ''; // Clear existing content
+    if(classList.innerHTML){
+        classList.innerHTML = ''; // Clear existing content
+    }
 
     const querySnapshot = await getDocs(collection(db, "schools", "your_school_id", "courses"));
     querySnapshot.forEach((doc) => {
