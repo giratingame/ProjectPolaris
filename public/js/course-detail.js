@@ -1,10 +1,3 @@
-// Get Firebase configuration (if needed)
-// import { firebaseConfig } from './firebaseConfig.js';
-
-// Initialize Firebase (if needed)
-// import firebase from 'firebase/app';
-// import 'firebase/firestore';
-// firebase.initializeApp(firebaseConfig);
 import { getApp } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js'; // Adjust version if needed
 
 try {
