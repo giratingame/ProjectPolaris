@@ -2,7 +2,7 @@
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 import { db } from './firebase-init.js';
 
-async function fetchCourses() {
+/*(async function fetchCourses() {
     const classList = document.getElementById('class-list');
     classList.innerHTML = ''; // Clear existing content
 
@@ -22,7 +22,7 @@ async function fetchCourses() {
 
         classList.appendChild(courseItem);
     });
-}
+}*/
 
 window.addEventListener("load", function() {
     // Ensure styles are loaded before running any UI scripts
@@ -32,7 +32,7 @@ window.addEventListener("load", function() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOMContentLoaded event fired on review.html'); // Added console log
 
-    fetchCourses();
+    //fetchCourses();
 
     // Back button functionality
     const backButton = document.getElementById('review-back-button');
