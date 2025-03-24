@@ -1,6 +1,6 @@
 // public/js/review.js
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
-import { db } from './firebase-init.js';
+import { db } from './firebase-init.mjs';
 
 async function fetchCourses() {
     const classList = document.getElementById('class-list');
