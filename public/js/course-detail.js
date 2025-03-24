@@ -5,6 +5,14 @@
 // import firebase from 'firebase/app';
 // import 'firebase/firestore';
 // firebase.initializeApp(firebaseConfig);
+import { getApp } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js'; // Adjust version if needed
+
+try {
+    const app = getApp();
+    console.log("Firebase App is initialized:", app);
+} catch (e) {
+    console.error("Firebase App initialization check failed:", e.message);
+}
 
 const getCourseId = () => {
     const urlParams = new URLSearchParams(window.location.search);
