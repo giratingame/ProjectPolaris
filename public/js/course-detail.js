@@ -32,7 +32,8 @@ const fetchTeacherReviews = async (courseId) => {
     try {
         const db = firebase.firestore();
         const teachersSnapshot = await db.collection('courses').doc(courseId).collection('Teachers').get();
-        const teacherReviews = null;
+        // Initialize teacherReviews as an empty array
+        const teacherReviews =;
 
         for (const teacherDoc of teachersSnapshot.docs) {
             const teacherName = teacherDoc.id;
@@ -43,7 +44,7 @@ const fetchTeacherReviews = async (courseId) => {
         return teacherReviews;
     } catch (error) {
         console.error("Error fetching teacher reviews:", error);
-        return;
+        return; // Return an empty array in case of an error
     }
 };
 
