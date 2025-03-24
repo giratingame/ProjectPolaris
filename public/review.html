@@ -4,21 +4,26 @@
     <title>Course Reviews</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Additional styles for the course list */
+        /* Additional styles for the course list layout */
         #course-list {
-            display: flex; /* Use flexbox for vertical layout */
-            flex-direction: column; /* Stack items vertically */
-            align-items: flex-start; /* Align items to the start (left) */
+            display: grid; /* Use grid layout */
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive columns */
+            grid-gap: 10px; /* Spacing between items */
         }
         .course-item {
             padding: 10px;
-            border-bottom: 1px solid #ccc; /* Add a line between items */
-            width: 100%; /* Make each item take full width */
+            border: 1px solid #ccc; /* Keep the border for structure */
+            text-align: center; /* Center the content */
         }
         .course-link {
             text-decoration: none;
-            color: blue;
-            font-weight: bold;
+            /*
+            color: blue;        <--  Remove this if color is in style.css
+            font-weight: bold;  <--  Remove this if font-weight is in style.css
+            */
+            display: block; /* Make the link fill the item */
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
