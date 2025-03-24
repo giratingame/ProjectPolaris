@@ -38,7 +38,12 @@
         const auth = getAuth(app);
 
         // Initialize FirebaseUI
-        const ui = new firebaseui.auth.AuthUI(auth);
+        let ui;
+        if (firebaseui.auth.AuthUI.getInstance()) {
+            ui = firebaseui.auth.AuthUI.getInstance();
+        } else {
+            ui = new firebaseui.auth.AuthUI(auth);
+        }
 
         // FirebaseUI configuration
         const uiConfig = {
