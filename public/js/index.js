@@ -1,4 +1,4 @@
-// public/js/index.js
+// public/js/index.j
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOMContentLoaded event fired on index.html');
     const buttonContainer = document.getElementById('button-container');
