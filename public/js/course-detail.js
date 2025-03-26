@@ -9,6 +9,7 @@ try {
 
 const getCourseId = () => {
     const urlParams = new URLSearchParams(window.location.search);
+    console.log("Course ID from URL:", courseId);
     return urlParams.get('courseId');
 };
 
