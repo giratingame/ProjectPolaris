@@ -17,19 +17,21 @@ document.addEventListener('DOMContentLoaded', () => {
     
         // Function to populate teacher dropdown
         async function populateTeachers() {
-            try {
-                const teachersSnapshot = await getDocs(collection(db, "teachers")); // Assuming your teacher data is in a "teachers" collection
-                teachersSnapshot.forEach((doc) => {
-                    const teacherName = doc.data().name; // Assuming the teacher name is in a "name" field
-                    const option = document.createElement('option');
-                    option.value = teacherName;
-                    option.textContent = teacherName;
-                    teacherSelect.appendChild(option);
-                });
-            } catch (error) {
-                console.error("Error fetching teachers:", error);
-            }
+        try {
+            const teachersSnapshot = await getDocs(collection(db, "teachers"));
+            console.log("Teachers Snapshot:", teachersSnapshot); // Add this line
+            teachersSnapshot.forEach((doc) => {
+                const teacherName = doc.data().name;
+                console.log("Teacher Name:", teacherName); // Add this line
+                const option = document.createElement('option');
+                option.value = teacherName;
+                option.textContent = teacherName;
+                teacherSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error("Error fetching teachers:", error);
         }
+    }
 
         populateTeachers();
         
