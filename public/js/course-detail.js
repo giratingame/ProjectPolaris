@@ -171,7 +171,14 @@ document.getElementById('back-button').addEventListener('click', function() {
     // window.location.href = 'your-desired-page.html';
 });
 
+// Add event listener to the submit review button
 document.getElementById('submit-review-button').addEventListener('click', function() {
+    // Get the course name from the page (adjust as needed)
+    const courseName = document.getElementById('course-title').textContent; // or whatever element holds the course name
+
+    // Store the course name in local storage or URL parameters
+    localStorage.setItem('courseName', courseName); // Store in local storage
+
     window.location.href = 'review-submission.html';
 });
 
