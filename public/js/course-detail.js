@@ -174,12 +174,13 @@ document.getElementById('back-button').addEventListener('click', function() {
 // Add event listener to the submit review button
 document.getElementById('submit-review-button').addEventListener('click', function() {
     // Get the course name from the page (adjust as needed)
-    const courseName = document.getElementById('course-title').textContent; // or whatever element holds the course name
+    const courseId = document.getElementById('course-title').textContent; // or whatever element holds the course name
 
-    // Store the course name in local storage or URL parameters
-    localStorage.setItem('courseName', courseName); // Store in local storage
+    // Encode the course ID for URL safety
+    const encodedCourseId = encodeURIComponent(courseId);
 
-    window.location.href = 'review-submission.html';
+    // Redirect to review-submission.html with the courseId as a URL parameter
+    window.location.href = `review-submission.html?courseId=${encodedCourseId}`;
 });
 
 const init = async () => {
