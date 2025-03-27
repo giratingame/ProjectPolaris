@@ -144,7 +144,17 @@ const displayTeacherReviews = (teacherReviews) => {
                 homework: calculateAverage(teacherRatings.homework)
             };
 
-            displayAverageRatings(teacher, averageRatings);
+            // Add a check to ensure averageRatings has valid data
+            if (
+                !isNaN(averageRatings.subjectRigor) ||
+                !isNaN(averageRatings.workload) ||
+                !isNaN(averageRatings.teacherInvolvement) ||
+                !isNaN(averageRatings.homework)
+            ) {
+                displayAverageRatings(teacher, averageRatings);
+            } else {
+                console.warn(`averageRatings had no valid data for teacher: ${teacher.teacherName}`);
+            }
         });
     } else {
         reviewsContainer.textContent = "No reviews found for this course.";
