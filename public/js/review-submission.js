@@ -9,12 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     async function populateTeachers() {
         try {
             const teachersSnapshot = await getDocs(collection(db, "teachers"));
-            console.log("Teachers Snapshot Size:", teachersSnapshot.size); // Log the number of documents
+            console.log("Teachers Snapshot Size:", teachersSnapshot.size);
     
             teachersSnapshot.forEach((doc) => {
-                console.log("Document ID:", doc.id); // Log the document ID
+                console.log("Document ID:", doc.id);
                 console.log("Document Data:", doc.data()); // Log the entire document data
-    
                 if (doc.data() && doc.data().name) {
                     const teacherName = doc.data().name;
                     const option = document.createElement('option');
