@@ -1,8 +1,9 @@
-import { initializeApp, getApp } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js';
-import { getFirestore, doc, getDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js';
-import { app, db } from './firebase-init.js'; // Keep this relative import for your local module
+// course-detail.js
+import { initializeApp, getApp } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js';
+import { getFirestore, doc, getDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js';
+import { app, db } from './firebase-init.js'; // Keep this relative import
 
-// Optional: Keep the app initialization check if needed
+// Optional: Keep the app initialization check
 try {
     const initializedApp = getApp();
     console.log("Firebase App is initialized:", initializedApp.name);
@@ -19,7 +20,7 @@ const getCourseId = () => {
 
 const fetchCourseDetails = async (courseId) => {
     try {
-        const courseRef = doc(db, 'courses', courseId); // Use the imported 'db'
+        const courseRef = doc(db, 'courses', courseId);
         const courseSnap = await getDoc(courseRef);
 
         if (courseSnap.exists()) {
@@ -37,7 +38,7 @@ const fetchCourseDetails = async (courseId) => {
 
 const fetchTeacherReviews = async (courseId) => {
     try {
-        const teachersRef = collection(doc(db, 'courses', courseId), 'Teachers'); // Use the imported 'db'
+        const teachersRef = collection(doc(db, 'courses', courseId), 'Teachers');
         const teachersSnapshot = await getDocs(teachersRef);
         let teacherReviews = [];
 
