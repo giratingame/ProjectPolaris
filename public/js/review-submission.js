@@ -12,13 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
             results = regex.exec(window.location.href);
         if (!results) return null;
         if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        return decodeURIComponent(results[2].replace(/\+/g, ' ')); // Decode the parameter
     }
 
     // Function to populate teacher dropdown
     async function populateTeachers() {
         try {
-            // Get the courseId from the URL
+            // Get the courseId from the URL and decode it
             const courseId = getUrlParameter('courseId');
 
             if (!courseId) {
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const homeworkScore = parseInt(document.getElementById('homework-score').value);
         const comment = document.getElementById('comment').value;
 
-        // Get the courseId from the URL
+        // Get the courseId from the URL and decode it
         const courseId = getUrlParameter('courseId');
 
         // Validation
