@@ -183,7 +183,7 @@ body {
 }
 
 #teacher-reviews > div > h3 {
-    padding-left: 0 !important;
+    padding-left: 20 !important;
     margin-left: 0 !important;
     color: var(--navy-blue) !important;
 }
