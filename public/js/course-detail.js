@@ -1,7 +1,6 @@
-// course-detail.js
-import { initializeApp, getApp } from 'firebase/app';
-import { getFirestore, doc, getDoc, collection, getDocs } from 'firebase/firestore';
-import { app, db } from './firebase-init.js'; // Import 'db' as well
+import { initializeApp, getApp } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js';
+import { getFirestore, doc, getDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js';
+import { app, db } from './firebase-init.js'; // Keep this relative import for your local module
 
 // Optional: Keep the app initialization check if needed
 try {
