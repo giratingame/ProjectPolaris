@@ -171,6 +171,10 @@ document.getElementById('back-button').addEventListener('click', function() {
     // window.location.href = 'your-desired-page.html';
 });
 
+document.getElementById('submit-review-button').addEventListener('click', function() {
+    window.location.href = 'review-submission.html';
+});
+
 const init = async () => {
     const courseId = getCourseId();
     if (courseId) {
