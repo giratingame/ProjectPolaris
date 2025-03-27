@@ -5,18 +5,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitButton = document.getElementById('submit-button');
     const teacherSelect = document.getElementById('teacher-name');
 
+    // Function to get URL parameters
+    function getUrlParameter(name) {
+        name = name.replace(/[\[\]]/g, '\\$&');
+        const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(window.location.href);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
     // Function to populate teacher dropdown
     async function populateTeachers() {
         try {
-            // Get the course name from local storage
-            const courseName = localStorage.getItem('courseName');
+            // Get the courseId from the URL
+            const courseId = getUrlParameter('courseId');
 
-            if (!courseName) {
-                console.error("Course name not found in local storage.");
-                return; // Exit if course name is missing
+            if (!courseId) {
+                console.error("Course ID not found in URL.");
+                return; // Exit if course ID is missing
             }
 
-            const teachersSnapshot = await getDocs(collection(db, "courses", courseName, "Teachers"));
+            const teachersSnapshot = await getDocs(collection(db, "courses", courseId, "Teachers"));
             teachersSnapshot.forEach((doc) => {
                 const teacherName = doc.id;
                 const option = document.createElement('option');
@@ -41,11 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const homeworkScore = parseInt(document.getElementById('homework-score').value);
         const comment = document.getElementById('comment').value;
 
-        // Get the course name from local storage
-        const courseName = localStorage.getItem('courseName');
+        // Get the courseId from the URL
+        const courseId = getUrlParameter('courseId');
 
         // Validation
-        if (!studentId || !teacherName || !courseName || isNaN(rigorScore) || isNaN(workloadScore) || isNaN(involvementScore) || isNaN(homeworkScore) || !comment) {
+        if (!studentId || !teacherName || !courseId || isNaN(rigorScore) || isNaN(workloadScore) || isNaN(involvementScore) || isNaN(homeworkScore) || !comment) {
             alert('Please fill in all fields.');
             return;
         }
@@ -57,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Store review in the correct path
-            await setDoc(doc(db, "courses", courseName, "Teachers", teacherName, "reviews", studentId), {
+            await setDoc(doc(db, "courses", courseId, "Teachers", teacherName, "reviews", studentId), {
                 studentId: studentId,
                 teacherName: teacherName,
                 rigorScore: rigorScore,
@@ -69,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             alert('Review submitted successfully!');
-            window.location.href = 'course-detail.html'; // Redirect back to course detail page
+            window.location.href = `course-detail.html?courseId=${encodeURIComponent(courseId)}`; // Redirect back to course detail page
         } catch (error) {
             console.error("Error submitting review:", error);
             alert('Error submitting review. Please try again.');
