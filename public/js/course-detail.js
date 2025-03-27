@@ -102,15 +102,15 @@ const displayTeacherReviews = (teacherReviews) => {
             const homeworkDiv = document.createElement('div');
             homeworkDiv.classList.add('review-category');
 
-            rigorDiv.innerHTML = `<span class="detail-label">Subject Rigor:</span> <span id="rigor-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="rigor-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
-            workloadDiv.innerHTML = `<span class="detail-label">Workload:</span> <span id="workload-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="workload-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
-            involvementDiv.innerHTML = `<span class="detail-label">Teacher Involvement:</span> <span id="involvement-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="involvement-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
-            homeworkDiv.innerHTML = `<span class="detail-label">Homework:</span> <span id="homework-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="homework-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
+            rigorDiv.innerHTML = `<span class="detail-label">Subject Rigor:</span> <span id="rigor-score-<span class="math-inline">\{teacher\.teacherName\}"\></span\><div class\="review\-bar\-container"\><div id\="rigor\-bar\-</span>{teacher.teacherName}" class="review-bar"></div></div>`;
+            workloadDiv.innerHTML = `<span class="detail-label">Workload:</span> <span id="workload-score-<span class="math-inline">\{teacher\.teacherName\}"\></span\><div class\="review\-bar\-container"\><div id\="workload\-bar\-</span>{teacher.teacherName}" class="review-bar"></div></div>`;
+            involvementDiv.innerHTML = `<span class="detail-label">Teacher Involvement:</span> <span id="involvement-score-<span class="math-inline">\{teacher\.teacherName\}"\></span\><div class\="review\-bar\-container"\><div id\="involvement\-bar\-</span>{teacher.teacherName}" class="review-bar"></div></div>`;
+            homeworkDiv.innerHTML = `<span class="detail-label">Homework:</span> <span id="homework-score-<span class="math-inline">\{teacher\.teacherName\}"\></span\><div class\="review\-bar\-container"\><div id\="homework\-bar\-</span>{teacher.teacherName}" class="review-bar"></div></div>`;
 
             teacherDiv.appendChild(rigorDiv);
             teacherDiv.appendChild(workloadDiv);
             teacherDiv.appendChild(involvementDiv);
-            teacherDiv.appendChild(homeworkDiv); // Added this line back!
+            teacherDiv.appendChild(homeworkDiv);
 
             reviewsContainer.appendChild(teacherDiv);
 
@@ -166,26 +166,18 @@ const displayTeacherReviews = (teacherReviews) => {
 };
 
 document.getElementById('back-button').addEventListener('click', function() {
-    window.history.back(); // Navigate to the previous page
-    // Or, if you want to go to a specific page:
-    // window.location.href = 'your-desired-page.html';
+    window.history.back();
 });
 
-// Add event listener to the submit review button
-
-// Add event listener to the submit review button
-// ... (your existing course-detail.js code) ...
-
-// Add event listener to the submit review button
 document.getElementById('submit-review-button').addEventListener('click', function() {
-    // Get the course name from the page (adjust as needed)
-    const courseId = document.getElementById('course-id-display').textContent; // Use the correct ID
-
-    // Redirect to review-submission.html with the courseId as a URL parameter
-    window.location.href = `review-submission.html?courseId=${courseId}`;
+    const courseId = getCourseId();
+    if (courseId) {
+        window.location.href = `review-submission.html?courseId=${courseId}`;
+    } else {
+        console.error("Course ID not found in URL.");
+        // Optionally, redirect to an error page or display a message
+    }
 });
-
-// ... (rest of your course-detail.js code) ...
 
 const init = async () => {
     const courseId = getCourseId();
@@ -196,7 +188,6 @@ const init = async () => {
         const teacherReviews = await fetchTeacherReviews(courseId);
         displayTeacherReviews(teacherReviews);
 
-        // Calculate average ratings for the course
         let allReviews = [];
         teacherReviews.forEach(teacher => {
             allReviews = allReviews.concat(teacher.reviews);
