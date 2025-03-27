@@ -1,4 +1,4 @@
-import { db } from './firebase-init.js'; // Import your Firebase database instance
+import { db } from './firebase-init.js';
 import { collection, addDoc } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     submitButton.addEventListener('click', async () => {
         const studentId = document.getElementById('student-id').value;
+        const teacherName = document.getElementById('teacher-name').value; // Retrieve teacher's name
         const rigorScore = parseInt(document.getElementById('rigor-score').value);
         const workloadScore = parseInt(document.getElementById('workload-score').value);
         const involvementScore = parseInt(document.getElementById('involvement-score').value);
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const comment = document.getElementById('comment').value;
 
         // Validate input
-        if (!studentId || isNaN(rigorScore) || isNaN(workloadScore) || isNaN(involvementScore) || isNaN(homeworkScore) || !comment) {
+        if (!studentId || !teacherName || isNaN(rigorScore) || isNaN(workloadScore) || isNaN(involvementScore) || isNaN(homeworkScore) || !comment) {
             alert('Please fill in all fields.');
             return;
         }
@@ -27,17 +28,17 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add a new document with a generated id.
             const docRef = await addDoc(collection(db, "reviews"), {
                 studentId: studentId,
+                teacherName: teacherName, // Include teacher's name
                 rigorScore: rigorScore,
                 workloadScore: workloadScore,
                 involvementScore: involvementScore,
                 homeworkScore: homeworkScore,
                 comment: comment,
-                timestamp: new Date() // Add a timestamp
+                timestamp: new Date()
             });
             console.log("Document written with ID: ", docRef.id);
             alert('Review submitted successfully!');
-            // Optionally, redirect the user or clear the form
-            window.location.href = 'course-detail.html'; // Or whatever page you want them back on.
+            window.location.href = 'course-detail.html';
         } catch (e) {
             console.error("Error adding document: ", e);
             alert('Error submitting review. Please try again.');
