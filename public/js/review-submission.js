@@ -4,6 +4,33 @@ import { collection, addDoc } from 'https://www.gstatic.com/firebasejs/11.4.0/fi
 document.addEventListener('DOMContentLoaded', () => {
     const submitButton = document.getElementById('submit-button');
 
+    // Function to populate teacher dropdown
+    async function populateTeachers() {
+        try {
+            const teachersSnapshot = await getDocs(collection(db, "teachers"));
+            console.log("Teachers Snapshot Size:", teachersSnapshot.size); // Log the number of documents
+    
+            teachersSnapshot.forEach((doc) => {
+                console.log("Document ID:", doc.id); // Log the document ID
+                console.log("Document Data:", doc.data()); // Log the entire document data
+    
+                if (doc.data() && doc.data().name) {
+                    const teacherName = doc.data().name;
+                    const option = document.createElement('option');
+                    option.value = teacherName;
+                    option.textContent = teacherName;
+                    teacherSelect.appendChild(option);
+                } else {
+                    console.log("Document missing 'name' field or data is empty.");
+                }
+            });
+        } catch (error) {
+            console.error("Error fetching teachers:", error);
+        }
+    }
+
+    populateTeachers();
+    
     submitButton.addEventListener('click', async () => {
         const studentId = document.getElementById('student-id').value;
         const teacherName = document.getElementById('teacher-name').value; // Retrieve teacher's name
@@ -15,32 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const submitButton = document.getElementById('submit-button');
         const teacherSelect = document.getElementById('teacher-name');
     
-        // Function to populate teacher dropdown
-        async function populateTeachers() {
-            try {
-                const teachersSnapshot = await getDocs(collection(db, "teachers"));
-                console.log("Teachers Snapshot Size:", teachersSnapshot.size); // Log the number of documents
         
-                teachersSnapshot.forEach((doc) => {
-                    console.log("Document ID:", doc.id); // Log the document ID
-                    console.log("Document Data:", doc.data()); // Log the entire document data
-        
-                    if (doc.data() && doc.data().name) {
-                        const teacherName = doc.data().name;
-                        const option = document.createElement('option');
-                        option.value = teacherName;
-                        option.textContent = teacherName;
-                        teacherSelect.appendChild(option);
-                    } else {
-                        console.log("Document missing 'name' field or data is empty.");
-                    }
-                });
-            } catch (error) {
-                console.error("Error fetching teachers:", error);
-            }
-        }
-
-        populateTeachers();
         
         // Validate input
         if (!studentId || !teacherName || isNaN(rigorScore) || isNaN(workloadScore) || isNaN(involvementScore) || isNaN(homeworkScore) || !comment) {
