@@ -65,22 +65,32 @@ const displayCourseDetails = (courseData) => {
     }
 };
 
-const displayAverageRatings = (averageRatings) => {
+const displayAverageRatings = (teacher, averageRatings) => {
     const updateBar = (barId, scoreId, score, maxScore = 5) => {
         const bar = document.getElementById(barId);
         const scoreSpan = document.getElementById(scoreId);
+
         if (bar && scoreSpan) {
             const average = parseFloat(score.toFixed(1));
             scoreSpan.textContent = isNaN(average) ? '' : average;
             const percentage = (average / maxScore) * 100;
-            bar.style.width = `${isNaN(percentage) ? 0 : percentage}%`;
+
+            if (isNaN(percentage)) {
+                console.error("Percentage is NaN for:", barId, "score:", score);
+                bar.style.width = '0%';
+            } else {
+                bar.style.width = `${percentage}%`;
+                console.log("Updating bar:", barId, "score:", average, "percentage:", percentage);
+            }
+        } else {
+            console.error("Bar or score element not found for:", barId);
         }
     };
 
-    updateBar('rigor-bar', 'rigor-score', averageRatings.subjectRigor);
-    updateBar('workload-bar', 'workload-score', averageRatings.workload);
-    updateBar('involvement-bar', 'involvement-score', averageRatings.teacherInvolvement);
-    updateBar('homework-bar', 'homework-score', averageRatings.homework);
+    updateBar(`rigor-bar-${teacher.teacherName}`, `rigor-score-${teacher.teacherName}`, averageRatings.subjectRigor);
+    updateBar(`workload-bar-${teacher.teacherName}`, `workload-score-${teacher.teacherName}`, averageRatings.workload);
+    updateBar(`involvement-bar-${teacher.teacherName}`, `involvement-score-${teacher.teacherName}`, averageRatings.teacherInvolvement);
+    updateBar(`homework-bar-${teacher.teacherName}`, `homework-score-${teacher.teacherName}`, averageRatings.homework);
 };
 
 const displayTeacherReviews = (teacherReviews) => {
@@ -102,10 +112,10 @@ const displayTeacherReviews = (teacherReviews) => {
             const homeworkDiv = document.createElement('div');
             homeworkDiv.classList.add('review-category');
 
-            rigorDiv.innerHTML = `<span class="detail-label">Subject Rigor:</span> <span id="rigor-score-<span class="math-inline">\{teacher\.teacherName\}"\></span\><div class\="review\-bar\-container"\><div id\="rigor\-bar\-</span>{teacher.teacherName}" class="review-bar"></div></div>`;
-            workloadDiv.innerHTML = `<span class="detail-label">Workload:</span> <span id="workload-score-<span class="math-inline">\{teacher\.teacherName\}"\></span\><div class\="review\-bar\-container"\><div id\="workload\-bar\-</span>{teacher.teacherName}" class="review-bar"></div></div>`;
-            involvementDiv.innerHTML = `<span class="detail-label">Teacher Involvement:</span> <span id="involvement-score-<span class="math-inline">\{teacher\.teacherName\}"\></span\><div class\="review\-bar\-container"\><div id\="involvement\-bar\-</span>{teacher.teacherName}" class="review-bar"></div></div>`;
-            homeworkDiv.innerHTML = `<span class="detail-label">Homework:</span> <span id="homework-score-<span class="math-inline">\{teacher\.teacherName\}"\></span\><div class\="review\-bar\-container"\><div id\="homework\-bar\-</span>{teacher.teacherName}" class="review-bar"></div></div>`;
+            rigorDiv.innerHTML = `<span class="detail-label">Subject Rigor:</span> <span id="rigor-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="rigor-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
+            workloadDiv.innerHTML = `<span class="detail-label">Workload:</span> <span id="workload-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="workload-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
+            involvementDiv.innerHTML = `<span class="detail-label">Teacher Involvement:</span> <span id="involvement-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="involvement-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
+            homeworkDiv.innerHTML = `<span class="detail-label">Homework:</span> <span id="homework-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="homework-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
 
             teacherDiv.appendChild(rigorDiv);
             teacherDiv.appendChild(workloadDiv);
@@ -121,10 +131,10 @@ const displayTeacherReviews = (teacherReviews) => {
             };
 
             const teacherRatings = {
-                subjectRigor: teacher.reviews.map(r => r.subjectRigor).filter(r => r !== undefined),
-                workload: teacher.reviews.map(r => r.workload).filter(r => r !== undefined),
-                teacherInvolvement: teacher.reviews.map(r => r.teacherInvolvement).filter(r => r !== undefined),
-                homework: teacher.reviews.map(r => r.homework).filter(r => r !== undefined)
+                subjectRigor: teacher.reviews.map(r => r.rigorScore).filter(r => r !== undefined),
+                workload: teacher.reviews.map(r => r.workloadScore).filter(r => r !== undefined),
+                teacherInvolvement: teacher.reviews.map(r => r.involvementScore).filter(r => r !== undefined),
+                homework: teacher.reviews.map(r => r.homeworkScore).filter(r => r !== undefined)
             };
 
             const averageRatings = {
@@ -134,37 +144,12 @@ const displayTeacherReviews = (teacherReviews) => {
                 homework: calculateAverage(teacherRatings.homework)
             };
 
-            const updateBar = (barId, scoreId, score, maxScore = 5) => {
-                const bar = document.getElementById(barId);
-                const scoreSpan = document.getElementById(scoreId);
-
-                if (bar && scoreSpan) {
-                    const average = parseFloat(score.toFixed(1));
-                    scoreSpan.textContent = isNaN(average) ? '' : average;
-                    const percentage = (average / maxScore) * 100;
-
-                    if (isNaN(percentage)) {
-                        console.error("Percentage is NaN for:", barId, "score:", score);
-                        bar.style.width = '0%';
-                    } else {
-                        bar.style.width = `${percentage}%`;
-                        console.log("Updating bar:", barId, "score:", average, "percentage:", percentage);
-                    }
-                } else {
-                    console.error("Bar or score element not found for:", barId);
-                }
-            };
-
-            updateBar(`rigor-bar-${teacher.teacherName}`, `rigor-score-${teacher.teacherName}`, averageRatings.subjectRigor);
-            updateBar(`workload-bar-${teacher.teacherName}`, `workload-score-${teacher.teacherName}`, averageRatings.workload);
-            updateBar(`involvement-bar-${teacher.teacherName}`, `involvement-score-${teacher.teacherName}`, averageRatings.teacherInvolvement);
-            updateBar(`homework-bar-${teacher.teacherName}`, `homework-score-${teacher.teacherName}`, averageRatings.homework);
+            displayAverageRatings(teacher, averageRatings);
         });
     } else {
         reviewsContainer.textContent = "No reviews found for this course.";
     }
 };
-
 document.getElementById('back-button').addEventListener('click', function() {
     window.history.back();
 });
