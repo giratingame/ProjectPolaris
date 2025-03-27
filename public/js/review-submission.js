@@ -1,5 +1,5 @@
 import { db } from './firebase-init.js';
-import { collection, getDocs, doc, setDoc } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js';
+import { collection, getDocs, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const submitButton = document.getElementById('submit-button');
@@ -12,19 +12,30 @@ document.addEventListener('DOMContentLoaded', () => {
             results = regex.exec(window.location.href);
         if (!results) return null;
         if (!results[2]) return '';
-        return results[2].replace(/\+/g, ' '); // Replace '+' with space (if needed)
+        return results[2].replace(/\+/g, ' ');
     }
 
     // Function to populate teacher dropdown
     async function populateTeachers() {
         try {
-            // Get the courseId from the URL (no decoding)
+            // Get the courseId from the URL (document ID)
             const courseId = getUrlParameter('courseId');
 
             if (!courseId) {
                 console.error("Course ID not found in URL.");
                 return; // Exit if course ID is missing
             }
+
+            // Get the course document to retrieve courseName
+            const courseDoc = await getDoc(doc(db, "courses", courseId));
+
+            if (!courseDoc.exists()) {
+                console.error("Course document not found.");
+                return; // Exit if course doc is missing.
+            }
+
+            const courseData = courseDoc.data();
+            const courseName = courseData.courseName; // Get the display course name
 
             const teachersSnapshot = await getDocs(collection(db, "courses", courseId, "Teachers"));
             teachersSnapshot.forEach((doc) => {
@@ -51,8 +62,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const homeworkScore = parseInt(document.getElementById('homework-score').value);
         const comment = document.getElementById('comment').value;
 
-        // Get the courseId from the URL (no decoding)
+        // Get the courseId from the URL (document ID)
         const courseId = getUrlParameter('courseId');
+
+        // Get the course document to retrieve courseName
+        const courseDoc = await getDoc(doc(db, "courses", courseId));
+        const courseData = courseDoc.data();
+        const courseName = courseData.courseName; // Get the display course name
 
         // Validation
         if (!studentId || !teacherName || !courseId || isNaN(rigorScore) || isNaN(workloadScore) || isNaN(involvementScore) || isNaN(homeworkScore) || !comment) {
