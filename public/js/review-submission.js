@@ -54,11 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Call populateTeachers on page load.
     populateTeachers();
 
-    const backButton = document.getElementById('back-button');
     backButton.addEventListener('click', () => {
         const courseId = getUrlParameter('courseId');
+        console.log("Course ID from URL:", courseId); // Debugging log
+
         if (courseId) {
             window.location.href = `course-detail.html?courseId=${courseId}`;
+            console.log("Navigating to:", `course-detail.html?courseId=${courseId}`); //debugging log
         } else {
             console.error("Course ID not found in URL.");
             // Optionally, redirect to an error page or display a message
