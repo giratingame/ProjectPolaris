@@ -65,11 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Get the courseId from the URL (document ID)
         const courseId = getUrlParameter('courseId');
 
-        // Get the course document to retrieve courseName
-        const courseDoc = await getDoc(doc(db, "courses", courseId));
-        const courseData = courseDoc.data();
-        const courseName = courseData.courseName; // Get the display course name
-
         // Validation
         if (!studentId || !teacherName || !courseId || isNaN(rigorScore) || isNaN(workloadScore) || isNaN(involvementScore) || isNaN(homeworkScore) || !comment) {
             alert('Please fill in all fields.');
