@@ -1,26 +1,30 @@
-//import { getApp } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js'; // Adjust version if needed
-import { app } from './firebase-init.js';
+// course-detail.js
+import { initializeApp, getApp } from 'firebase/app';
+import { getFirestore, doc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { app, db } from './firebase-init.js'; // Import 'db' as well
 
-/*try {
-    const app = getApp();
-    console.log("Firebase App is initialized:", app);
+// Optional: Keep the app initialization check if needed
+try {
+    const initializedApp = getApp();
+    console.log("Firebase App is initialized:", initializedApp.name);
 } catch (e) {
     console.error("Firebase App initialization check failed:", e.message);
-}*/
+}
 
 const getCourseId = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const courseId = urlParams.get('courseId');
-    console.log("Course ID from URL:", courseId); // Moved here
+    console.log("Course ID from URL:", courseId);
     return courseId;
 };
 
 const fetchCourseDetails = async (courseId) => {
     try {
-        const db = firebase.firestore();
-        const courseDoc = await db.collection('courses').doc(courseId).get();
-        if (courseDoc.exists) {
-            const courseData = courseDoc.data();
+        const courseRef = doc(db, 'courses', courseId); // Use the imported 'db'
+        const courseSnap = await getDoc(courseRef);
+
+        if (courseSnap.exists()) {
+            const courseData = courseSnap.data();
             return courseData;
         } else {
             console.log("No such course!");
@@ -34,21 +38,21 @@ const fetchCourseDetails = async (courseId) => {
 
 const fetchTeacherReviews = async (courseId) => {
     try {
-        const db = firebase.firestore();
-        const teachersSnapshot = await db.collection('courses').doc(courseId).collection('Teachers').get();
-        // Initialize teacherReviews as an empty array
+        const teachersRef = collection(doc(db, 'courses', courseId), 'Teachers'); // Use the imported 'db'
+        const teachersSnapshot = await getDocs(teachersRef);
         let teacherReviews = [];
 
         for (const teacherDoc of teachersSnapshot.docs) {
             const teacherName = teacherDoc.id;
-            const reviewsSnapshot = await teacherDoc.ref.collection('reviews').get();
+            const reviewsRef = collection(teachersRef, teacherName, 'reviews');
+            const reviewsSnapshot = await getDocs(reviewsRef);
             const reviews = reviewsSnapshot.docs.map(reviewDoc => reviewDoc.data());
             teacherReviews.push({ teacherName, reviews });
         }
         return teacherReviews;
     } catch (error) {
         console.error("Error fetching teacher reviews:", error);
-        return; // Return an empty array in case of an error
+        return [];
     }
 };
 
@@ -56,8 +60,7 @@ const displayCourseDetails = (courseData) => {
     if (courseData) {
         document.getElementById('course-title').textContent = courseData.courseName;
         document.getElementById('course-code').textContent = "Course Code: " + courseData.courseCode;
-        //document.getElementById('course-description').textContent = courseData.description; WHY DID IT ADD THIS :sob:
-        // ... and so on, for other course information
+        // document.getElementById('course-description').textContent = courseData.description;
     } else {
          document.getElementById('course-details').textContent = "Course not found";
     }
@@ -65,7 +68,7 @@ const displayCourseDetails = (courseData) => {
 
 const displayTeacherReviews = (teacherReviews) => {
     const reviewsContainer = document.getElementById('teacher-reviews');
-    if (teacherReviews.length > 0) {
+    if (teacherReviews && teacherReviews.length > 0) {
         teacherReviews.forEach(teacher => {
             const teacherDiv = document.createElement('div');
             teacherDiv.classList.add('teacher-review');
@@ -73,7 +76,7 @@ const displayTeacherReviews = (teacherReviews) => {
             const reviewsList = document.createElement('ul');
             teacher.reviews.forEach(review => {
                 const reviewItem = document.createElement('li');
-                reviewItem.textContent = review.text; // Assuming 'text' field contains the review
+                reviewItem.textContent = review.text;
                 reviewsList.appendChild(reviewItem);
             });
             teacherDiv.appendChild(reviewsList);
