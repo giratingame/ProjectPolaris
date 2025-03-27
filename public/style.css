@@ -180,7 +180,7 @@ body {
 
 /* Teacher-specific bars (sky blue) */
 .review-bar {
-    background-color: var(--sky-blue);
+    background-color: var(--light-blue);
 }
 
 #teacher-reviews h3 {
