@@ -182,10 +182,9 @@ body {
     background-color: var(--light-blue);
 }
 
-#teacher-reviews h3 {
-    color: var(--navy-blue);
-    padding-left: 0;
-    margin-left: 0;
+#teacher-reviews > div > h3 { /* More specific rule for teacher names */
+    padding-left: 0 !important; /* Use !important to ensure override */
+    margin-left: 0 !important; /* Use !important to ensure override */
 }
 
 #course-code {
@@ -193,7 +192,7 @@ body {
 }
 
 .detail-label, [id$="-score"] {
-    color: var(--light-blue); /* Corrected to light-blue */
+    color: var(--light-blue); /* Ensuring the correct color is used */
 }
 
 #ratings-container {
