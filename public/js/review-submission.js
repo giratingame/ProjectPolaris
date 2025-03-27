@@ -17,21 +17,28 @@ document.addEventListener('DOMContentLoaded', () => {
     
         // Function to populate teacher dropdown
         async function populateTeachers() {
-        try {
-            const teachersSnapshot = await getDocs(collection(db, "teachers"));
-            console.log("Teachers Snapshot:", teachersSnapshot); // Add this line
-            teachersSnapshot.forEach((doc) => {
-                const teacherName = doc.data().name;
-                console.log("Teacher Name:", teacherName); // Add this line
-                const option = document.createElement('option');
-                option.value = teacherName;
-                option.textContent = teacherName;
-                teacherSelect.appendChild(option);
-            });
-        } catch (error) {
-            console.error("Error fetching teachers:", error);
+            try {
+                const teachersSnapshot = await getDocs(collection(db, "teachers"));
+                console.log("Teachers Snapshot Size:", teachersSnapshot.size); // Log the number of documents
+        
+                teachersSnapshot.forEach((doc) => {
+                    console.log("Document ID:", doc.id); // Log the document ID
+                    console.log("Document Data:", doc.data()); // Log the entire document data
+        
+                    if (doc.data() && doc.data().name) {
+                        const teacherName = doc.data().name;
+                        const option = document.createElement('option');
+                        option.value = teacherName;
+                        option.textContent = teacherName;
+                        teacherSelect.appendChild(option);
+                    } else {
+                        console.log("Document missing 'name' field or data is empty.");
+                    }
+                });
+            } catch (error) {
+                console.error("Error fetching teachers:", error);
+            }
         }
-    }
 
         populateTeachers();
         
