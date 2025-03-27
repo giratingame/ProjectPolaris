@@ -139,3 +139,43 @@ body {
     margin-top: auto; /* Push it to the bottom */
     margin-bottom: 20px; /* Add some bottom margin */
 }
+
+/* Course Detail Page Styles */
+#course-details {
+    text-align: left;
+    color: var(--sky-blue);
+}
+
+#course-title {
+    color: var(--navy-blue);
+    font-size: 2em;
+}
+
+.review-category {
+    margin-top: 10px;
+}
+
+.review-bar-container {
+    width: 100%;
+    background-color: #f0f0f0;
+    margin-top: 5px;
+}
+
+.review-bar {
+    width: 0%;
+    height: 20px;
+}
+
+/* Main four bars (blue) */
+#rigor-bar, #workload-bar, #involvement-bar, #homework-bar {
+    background-color: var(--blue);
+}
+
+/* Teacher-specific bars (sky blue) */
+.review-bar {
+    background-color: var(--sky-blue);
+}
+
+#teacher-reviews h3 {
+    color: var(--navy-blue);
+}
