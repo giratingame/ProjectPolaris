@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to populate teacher dropdown
     async function populateTeachers() {
         try {
-            const teachersSnapshot = await getDocs(collection(db, "teachers"));
+            const teachersSnapshot = await getDocs(collection(db, "Teachers"));
             console.log("Teachers Snapshot Size:", teachersSnapshot.size);
     
             teachersSnapshot.forEach((doc) => {
