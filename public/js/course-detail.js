@@ -172,7 +172,12 @@ document.getElementById('back-button').addEventListener('click', function() {
 });
 
 document.getElementById('submit-review-button').addEventListener('click', function() {
-    window.location.href = 'review-submission.html';
+    const courseId = getCourseId();
+    if (courseId) {
+        window.location.href = `review-submission.html?courseId=${courseId}`;
+    } else {
+        console.error("Course ID not found in URL.");
+    }
 });
 
 const init = async () => {
