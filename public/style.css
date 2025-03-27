@@ -8,15 +8,15 @@
 
 body {
     margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: var(--gray);
 }
 
 #main-container {
     text-align: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #welcome-label {
@@ -141,6 +141,13 @@ body {
 }
 
 /* Course Detail Page Styles */
+#course-detail-body {
+    display: block; /* Override flexbox */
+    align-items: initial; /* Override align-items */
+    justify-content: initial; /* override justify-content */
+    height: auto; /* override height */
+}
+
 #course-details {
     text-align: left;
     color: var(--sky-blue);
