@@ -10,13 +10,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (event.target.id === 'review-button') {
                 console.log('Review button pressed'); // Added console log
                 window.location.href = 'review.html';
-            } else if (event.target.id === 'schedule-button') {
+            } /*else if (event.target.id === 'schedule-button') {
                 console.log('Schedule button pressed'); // Added console log
                 window.location.href = 'schedule.html';
             } else if (event.target.id === 'social-button') {
                 console.log('Social button pressed'); // Added console log
                 window.location.href = 'social.html';
-            }
+            }*/
         });
     }
 });
