@@ -2,37 +2,99 @@
 <html>
 <head>
     <title>Course Reviews</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        /* Basic styling for the course list */
-        .course-item {
-            padding: 10px;
-            margin-bottom: 5px;
-            border: 1px solid #ccc;
+        /* Specific styles for review.html to adjust or override */
+        #review-container {
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center; /* Center content horizontally */
         }
-        .course-link {
-            text-decoration: none;
-            color: blue;
-            font-weight: bold;
+
+        #class-list {
+            max-height: 400px; /* Increased max-height for more items */
+            overflow-y: auto;
+            border: 1px solid var(--light-blue);
+            margin: 20px auto;
+            width: 80%;
+            background-color: var(--navy-blue);
+            text-align: left; /* Align course names to the left */
+        }
+
+        .course-item {
+            padding: 10px 20px; /* Added left/right padding */
+            border-bottom: 1px solid var(--blue);
+            cursor: pointer;
+            color: var(--sky-blue); /* Set default text color */
+        }
+
+        .course-item:last-child {
+            border-bottom: none; /* Remove border from the last item */
+        }
+
+        .course-item:hover {
+            background-color: var(--light-blue);
+            color: var(--navy-blue); /* Change text color on hover */
+        }
+
+        #review-back-button {
+            background-color: var(--blue);
+            color: var(--sky-blue);
+            font-size: 20px;
+            padding: 15px 30px;
+            border: none;
+            cursor: pointer;
+            align-self: center;
+            margin-top: 20px; /* Adjust margin */
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--light-blue);
+            margin-bottom: 30px;
         }
     </style>
 </head>
 <body>
-    <h1>Course List</h1>
-    <div id="course-list">
+    <div id="review-container">
+        <h1>Course List</h1>
+        <div id="class-list">
+        </div>
+        <button id="review-back-button">Back</button>
     </div>
 
-    <script>
-        // JavaScript to fetch and display courses
+    <script type="module">
+        import { collection, getDocs, getFirestore } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+
+        // Your Firebase configuration (ensure this matches your firebase-init.js)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDVhIJ_abp8jQJi8QAtsnvg-WKkPbNlPqI",
+            authDomain: "project-polaris-statefarm.firebaseapp.com",
+            projectId: "project-polaris-statefarm",
+            storageBucket: "project-polaris-statefarm.firebasestorage.app",
+            messagingSenderId: "918316280295",
+            appId: "1:918316280295:web:1d5cd9584ad5f1b6f63542",
+            measurementId: "G-NFCNZMLTV1"
+        };
+
+        // Initialize Firebase if not already initialized
+        let firebaseApp;
+        try {
+            firebaseApp = initializeApp(firebaseConfig);
+        } catch (e) {
+            firebaseApp = getApp(); // If already initialized, get the existing app
+        }
+        const db = getFirestore(firebaseApp);
+
         document.addEventListener('DOMContentLoaded', () => {
-            const courseListDiv = document.getElementById('course-list');
+            const courseListDiv = document.getElementById('class-list');
 
-            // Function to fetch courses from Firestore
             const fetchCourses = async () => {
-                // Replace with your Firebase initialization and firestore reference
-                const db = firebase.firestore(); // Get Firestore reference
-
                 try {
-                    const coursesSnapshot = await db.collection('courses').get();
+                    const coursesSnapshot = await getDocs(collection(db, 'courses'));
 
                     coursesSnapshot.forEach(doc => {
                         const courseData = doc.data();
@@ -41,8 +103,8 @@
 
                         const courseLink = document.createElement('a');
                         courseLink.classList.add('course-link');
-                        courseLink.textContent = courseData.courseName; // Or any other field you want to display
-                        courseLink.href = `course-detail.html?courseId=${doc.id}`; // Link to the detailed page
+                        courseLink.textContent = courseData.courseName;
+                        courseLink.href = `course-detail.html?courseId=${doc.id}`;
 
                         courseDiv.appendChild(courseLink);
                         courseListDiv.appendChild(courseDiv);
@@ -54,12 +116,16 @@
             };
 
             fetchCourses();
+
+            const backButton = document.getElementById('review-back-button');
+            if (backButton) {
+                backButton.addEventListener('click', function() {
+                    window.location.href = 'index.html';
+                });
+            } else {
+                console.log("Back button not found.");
+            }
         });
     </script>
-    <script src="/__/firebase/8.6.8/firebase-app.js"></script>
-    <script src="/__/firebase/8.6.8/firebase-firestore.js"></script>
-    <script src="/__/firebase/init.js"></script>
-    <script type="module" src="js/firebase-init.js"></script>
-    <script type="module" src="js/review.js" defer></script>
 </body>
 </html>
