@@ -185,7 +185,7 @@ body {
 #teacher-reviews > div > h3 {
     padding-left: 0 !important;
     margin-left: 0 !important;
-    color: var(--navy-blue) !important; /* Ensure text is navy */
+    color: var(--navy-blue) !important;
 }
 
 #course-code {
