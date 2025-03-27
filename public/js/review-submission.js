@@ -80,11 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Store review in the correct path
             await setDoc(doc(db, "courses", courseId, "Teachers", teacherName, "reviews", studentId), {
                 studentId: studentId,
-                teacherName: teacherName,
-                rigorScore: rigorScore,
-                workloadScore: workloadScore,
-                involvementScore: involvementScore,
-                homeworkScore: homeworkScore,
+                //teacherName: teacherName,
+                subjectRigor: rigorScore,
+                workload: workloadScore,
+                teacherInvolvement: involvementScore,
+                homework: homeworkScore,
                 comment: comment,
                 timestamp: new Date()
             });
