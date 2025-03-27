@@ -8,44 +8,44 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to populate teacher dropdown
     async function populateTeachers() {
         try {
-            const teachersSnapshot = await getDocs(collection(db, "Teachers"));
-            console.log("Teachers Snapshot Size:", teachersSnapshot.size);
-    
+            // Get the course name from local storage
+            const courseName = localStorage.getItem('courseName');
+
+            if (!courseName) {
+                console.error("Course name not found in local storage.");
+                return; // Exit if course name is missing
+            }
+
+            const teachersSnapshot = await getDocs(collection(db, "courses", courseName, "Teachers"));
             teachersSnapshot.forEach((doc) => {
-                console.log("Document ID:", doc.id);
-                console.log("Document Data:", doc.data()); // Log the entire document data
-                if (doc.data() && doc.data().name) {
-                    const teacherName = doc.data().name;
-                    const option = document.createElement('option');
-                    option.value = teacherName;
-                    option.textContent = teacherName;
-                    teacherSelect.appendChild(option);
-                } else {
-                    console.log("Document missing 'name' field or data is empty.");
-                }
+                const teacherName = doc.id;
+                const option = document.createElement('option');
+                option.value = teacherName;
+                option.textContent = teacherName;
+                teacherSelect.appendChild(option);
             });
         } catch (error) {
             console.error("Error fetching teachers:", error);
         }
     }
 
+    // Call populateTeachers on page load.
     populateTeachers();
-    
+
     submitButton.addEventListener('click', async () => {
         const studentId = document.getElementById('student-id').value;
-        const teacherName = document.getElementById('teacher-name').value; // Retrieve teacher's name
+        const teacherName = teacherSelect.value;
         const rigorScore = parseInt(document.getElementById('rigor-score').value);
         const workloadScore = parseInt(document.getElementById('workload-score').value);
         const involvementScore = parseInt(document.getElementById('involvement-score').value);
         const homeworkScore = parseInt(document.getElementById('homework-score').value);
         const comment = document.getElementById('comment').value;
-        const submitButton = document.getElementById('submit-button');
-        const teacherSelect = document.getElementById('teacher-name');
-    
-        
-        
-        // Validate input
-        if (!studentId || !teacherName || isNaN(rigorScore) || isNaN(workloadScore) || isNaN(involvementScore) || isNaN(homeworkScore) || !comment) {
+
+        // Get the course name from local storage
+        const courseName = localStorage.getItem('courseName');
+
+        // Validation
+        if (!studentId || !teacherName || !courseName || isNaN(rigorScore) || isNaN(workloadScore) || isNaN(involvementScore) || isNaN(homeworkScore) || !comment) {
             alert('Please fill in all fields.');
             return;
         }
@@ -56,10 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            // Add a new document with a generated id.
-            const docRef = await addDoc(collection(db, "reviews"), {
+            // Store review in the correct path
+            await setDoc(doc(db, "courses", courseName, "Teachers", teacherName, "reviews", studentId), {
                 studentId: studentId,
-                teacherName: teacherName, // Include teacher's name
+                teacherName: teacherName,
                 rigorScore: rigorScore,
                 workloadScore: workloadScore,
                 involvementScore: involvementScore,
@@ -67,11 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 comment: comment,
                 timestamp: new Date()
             });
-            console.log("Document written with ID: ", docRef.id);
+
             alert('Review submitted successfully!');
-            window.location.href = 'course-detail.html';
-        } catch (e) {
-            console.error("Error adding document: ", e);
+            window.location.href = 'course-detail.html'; // Redirect back to course detail page
+        } catch (error) {
+            console.error("Error submitting review:", error);
             alert('Error submitting review. Please try again.');
         }
     });
