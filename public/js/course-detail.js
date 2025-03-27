@@ -75,13 +75,13 @@ const displayTeacherReviews = (teacherReviews) => {
             const teacherDiv = document.createElement('div');
             teacherDiv.classList.add('teacher-review');
             teacherDiv.innerHTML = `<h3>${teacher.teacherName}</h3>`;
-            const reviewsList = document.createElement('ul');
-            teacher.reviews.forEach(review => {
-                const reviewItem = document.createElement('li');
-                reviewItem.textContent = review.text;
-                reviewsList.appendChild(reviewItem);
-            });
-            teacherDiv.appendChild(reviewsList);
+            // const reviewsList = document.createElement('ul');
+            // teacher.reviews.forEach(review => {
+            //     const reviewItem = document.createElement('li');
+            //     reviewItem.textContent = review.comment;
+            //     reviewsList.appendChild(reviewItem);
+            // });
+            // teacherDiv.appendChild(reviewsList);
             reviewsContainer.appendChild(teacherDiv);
         });
     } else {
