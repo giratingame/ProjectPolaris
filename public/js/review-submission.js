@@ -12,13 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
             results = regex.exec(window.location.href);
         if (!results) return null;
         if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, ' ')); // Decode the parameter
+        return results[2].replace(/\+/g, ' '); // Replace '+' with space (if needed)
     }
 
     // Function to populate teacher dropdown
     async function populateTeachers() {
         try {
-            // Get the courseId from the URL and decode it
+            // Get the courseId from the URL (no decoding)
             const courseId = getUrlParameter('courseId');
 
             if (!courseId) {
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const homeworkScore = parseInt(document.getElementById('homework-score').value);
         const comment = document.getElementById('comment').value;
 
-        // Get the courseId from the URL and decode it
+        // Get the courseId from the URL (no decoding)
         const courseId = getUrlParameter('courseId');
 
         // Validation
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             alert('Review submitted successfully!');
-            window.location.href = `course-detail.html?courseId=${encodeURIComponent(courseId)}`; // Redirect back to course detail page
+            window.location.href = `course-detail.html?courseId=${courseId}`; // Redirect back to course detail page
         } catch (error) {
             console.error("Error submitting review:", error);
             alert('Error submitting review. Please try again.');
