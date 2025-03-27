@@ -105,7 +105,7 @@ const displayTeacherReviews = (teacherReviews) => {
             rigorDiv.innerHTML = `<span class="detail-label">Subject Rigor:</span> <span id="rigor-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="rigor-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
             workloadDiv.innerHTML = `<span class="detail-label">Workload:</span> <span id="workload-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="workload-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
             involvementDiv.innerHTML = `<span class="detail-label">Teacher Involvement:</span> <span id="involvement-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="involvement-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
-            homeworkDiv.innerHTML = `<span class="detail-label">Homework:</span> <span id="homework-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="homework-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
+            homeworkDiv.innerHTML = `<span class="detail-label">Homework:</span> <span id="homework-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="homework-bar-${teacher.teacherName}" class-review-bar"></div></div>`;
 
             teacherDiv.appendChild(rigorDiv);
             teacherDiv.appendChild(workloadDiv);
@@ -160,13 +160,14 @@ const displayTeacherReviews = (teacherReviews) => {
             updateBar(`involvement-bar-${teacher.teacherName}`, `involvement-score-${teacher.teacherName}`, averageRatings.teacherInvolvement);
             updateBar(`homework-bar-${teacher.teacherName}`, `homework-score-${teacher.teacherName}`, averageRatings.homework);
 
-            const reviewsList = document.createElement('ul');
-            teacher.reviews.forEach(review => {
-                const reviewItem = document.createElement('li');
-                reviewItem.textContent = `Comment: ${review.comment || 'No comment'}`;
-                reviewsList.appendChild(reviewItem);
-            });
-            teacherDiv.appendChild(reviewsList);
+            // Removed the following lines:
+            // const reviewsList = document.createElement('ul');
+            // teacher.reviews.forEach(review => {
+            //     const reviewItem = document.createElement('li');
+            //     reviewItem.textContent = `Comment: ${review.comment || 'No comment'}`;
+            //     reviewsList.appendChild(reviewItem);
+            // });
+            // teacherDiv.appendChild(reviewsList);
         });
     } else {
         reviewsContainer.textContent = "No reviews found for this course.";
