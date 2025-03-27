@@ -190,12 +190,16 @@ body {
 
 #ratings-container {
     max-width: 600px; /* Adjust as needed */
-    margin: 20px auto; /* Center horizontally */
+    /* Removed margin: 20px auto; */
+    text-align: left; /* Align text to the left */
 }
-
-/* Add this to the teacher reviews as well*/
 
 #teacher-reviews {
     max-width: 600px;
-    margin: 20px auto;
+    /* Removed margin: 20px auto; */
+    text-align: left; /* Align text to the left */
+}
+
+#course-details {
+    text-align: left;
 }
