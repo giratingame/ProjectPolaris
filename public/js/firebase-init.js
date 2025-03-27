@@ -27,3 +27,4 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
 export { app, db, analytics };
+console.log("firebase-init.js loaded")
