@@ -16,13 +16,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column; /* Add this */
+    flex-direction: column;
 }
 
 #welcome-label {
     font-size: 50px;
     color: var(--blue);
-    margin-bottom: 50px; /* Adjusted margin */
+    margin-bottom: 50px;
 }
 
 #button-container {
@@ -98,15 +98,14 @@ body {
 }
 
 /* Review Page Styles */
-
 #review-container {
     text-align: center;
     padding: 50px;
     background-color: var(--gray);
     color: var(--sky-blue);
     display: flex;
-    flex-direction: column; /* Add this */
-    min-height: 100vh; /* Add this */
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 #class-list {
@@ -135,17 +134,17 @@ body {
     padding: 15px 30px;
     border: none;
     cursor: pointer;
-    align-self: center; /* Center the button */
-    margin-top: auto; /* Push it to the bottom */
-    margin-bottom: 20px; /* Add some bottom margin */
+    align-self: center;
+    margin-top: auto;
+    margin-bottom: 20px;
 }
 
 /* Course Detail Page Styles */
 #course-detail-body {
-    display: block; /* Override flexbox */
-    align-items: initial; /* Override align-items */
-    justify-content: initial; /* override justify-content */
-    height: auto; /* override height */
+    display: block;
+    align-items: initial;
+    justify-content: initial;
+    height: auto;
 }
 
 #course-details {
@@ -185,17 +184,16 @@ body {
 
 #teacher-reviews h3 {
     color: var(--navy-blue);
-    padding-left: 0; /* Remove indentation */
-    margin-left: 0; /* Remove indentation */
+    padding-left: 0;
+    margin-left: 0;
 }
-
 
 #course-code {
-    color: var(--navy-blue); /* Navy blue for course code */
+    color: var(--navy-blue);
 }
 
-.detail-label, [id$="-score"] { /* Targets all elements with id ending in -score */
-    color: var(--sky-blue);
+.detail-label, [id$="-score"] {
+    color: var(--light-blue); /* Corrected to light-blue */
 }
 
 #ratings-container {
