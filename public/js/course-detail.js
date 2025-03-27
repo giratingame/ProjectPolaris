@@ -166,9 +166,9 @@ const displayTeacherReviews = (teacherReviews) => {
 };
 
 document.getElementById('back-button').addEventListener('click', function() {
-    window.history.back(); // Navigate to the previous page
+    //window.history.back(); // Navigate to the previous page
     // Or, if you want to go to a specific page:
-    // window.location.href = 'your-desired-page.html';
+    window.location.href = 'review.html';
 });
 
 document.getElementById('submit-review-button').addEventListener('click', function() {
