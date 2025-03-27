@@ -1,4 +1,4 @@
-import { getApp } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js'; // Adjust version if needed
+//import { getApp } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js'; // Adjust version if needed
 
 try {
     const app = getApp();
