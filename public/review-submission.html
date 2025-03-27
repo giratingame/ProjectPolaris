@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Submit Review</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="review-form">
+        <h1>Submit a Review</h1>
+
+        <label for="student-id">Student ID:</label>
+        <input type="text" id="student-id" name="student-id"><br><br>
+
+        <label for="rigor-score">Subject Rigor (1-5):</label>
+        <input type="number" id="rigor-score" name="rigor-score" min="1" max="5"><br><br>
+
+        <label for="workload-score">Workload (1-5):</label>
+        <input type="number" id="workload-score" name="workload-score" min="1" max="5"><br><br>
+
+        <label for="involvement-score">Teacher Involvement (1-5):</label>
+        <input type="number" id="involvement-score" name="involvement-score" min="1" max="5"><br><br>
+
+        <label for="homework-score">Homework (1-5):</label>
+        <input type="number" id="homework-score" name="homework-score" min="1" max="5"><br><br>
+
+        <label for="comment">Comment:</label><br>
+        <textarea id="comment" name="comment" rows="4" cols="50"></textarea><br><br>
+
+        <button id="submit-button">Submit Review</button>
+    </div>
+    <script type="module" src = "js/review-submission.js"></script>
+</body>
+
+</html>
