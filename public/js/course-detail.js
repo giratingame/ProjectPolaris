@@ -9,8 +9,9 @@
 
 const getCourseId = () => {
     const urlParams = new URLSearchParams(window.location.search);
-    console.log("Course ID from URL:", courseId);
-    return urlParams.get('courseId');
+    const courseId = urlParams.get('courseId');
+    console.log("Course ID from URL:", courseId); // Moved here
+    return courseId;
 };
 
 const fetchCourseDetails = async (courseId) => {
