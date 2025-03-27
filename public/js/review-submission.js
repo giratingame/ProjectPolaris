@@ -3,6 +3,7 @@ import { collection, addDoc } from 'https://www.gstatic.com/firebasejs/11.4.0/fi
 
 document.addEventListener('DOMContentLoaded', () => {
     const submitButton = document.getElementById('submit-button');
+    const teacherSelect = document.getElementById('teacher-name');
 
     // Function to populate teacher dropdown
     async function populateTeachers() {
