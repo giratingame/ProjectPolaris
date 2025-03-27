@@ -172,9 +172,11 @@ document.getElementById('back-button').addEventListener('click', function() {
 });
 
 // Add event listener to the submit review button
+
+// Add event listener to the submit review button
 document.getElementById('submit-review-button').addEventListener('click', function() {
     // Get the course name from the page (adjust as needed)
-    const courseId = document.getElementById('course-title').textContent;
+    const courseId = document.getElementById('course-title').textContent; // Ensure this is the exact course name from Firestore
 
     // Redirect to review-submission.html with the courseId as a URL parameter (no encoding)
     window.location.href = `review-submission.html?courseId=${courseId}`;
