@@ -4,6 +4,7 @@ import { collection, getDocs, doc, setDoc, getDoc } from 'https://www.gstatic.co
 document.addEventListener('DOMContentLoaded', () => {
     const submitButton = document.getElementById('submit-button');
     const teacherSelect = document.getElementById('teacher-name');
+    const backButton = document.getElementById('back-button');
 
     // Function to get URL parameters
     function getUrlParameter(name) {
@@ -53,6 +54,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Call populateTeachers on page load.
     populateTeachers();
 
+    const backButton = document.getElementById('back-button');
+    backButton.addEventListener('click', () => {
+        const courseId = getUrlParameter('courseId');
+        if (courseId) {
+            window.location.href = `course-detail.html?courseId=${courseId}`;
+        } else {
+            console.error("Course ID not found in URL.");
+            // Optionally, redirect to an error page or display a message
+        }
+    });
+    
     submitButton.addEventListener('click', async () => {
         const studentId = document.getElementById('student-id').value;
         const teacherName = teacherSelect.value;
