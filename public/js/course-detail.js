@@ -165,6 +165,12 @@ const displayTeacherReviews = (teacherReviews) => {
     }
 };
 
+document.getElementById('back-button').addEventListener('click', function() {
+    window.history.back(); // Navigate to the previous page
+    // Or, if you want to go to a specific page:
+    // window.location.href = 'your-desired-page.html';
+});
+
 const init = async () => {
     const courseId = getCourseId();
     if (courseId) {
