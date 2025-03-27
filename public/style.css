@@ -188,18 +188,21 @@ body {
 }
 
 
+/* ... (your existing CSS) ... */
+
 #ratings-container {
-    max-width: 600px; /* Adjust as needed */
-    /* Removed margin: 20px auto; */
-    text-align: left; /* Align text to the left */
+    max-width: 600px;
+    padding-left: 20px; /* Add padding to the left */
+    text-align: left;
 }
 
 #teacher-reviews {
     max-width: 600px;
-    /* Removed margin: 20px auto; */
-    text-align: left; /* Align text to the left */
+    padding-left: 20px; /* Add padding to the left */
+    text-align: left;
 }
 
 #course-details {
+    padding-left: 20px; /* Add padding to the left */
     text-align: left;
 }
