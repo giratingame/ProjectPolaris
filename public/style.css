@@ -192,8 +192,8 @@ body {
     color: var(--navy-blue); /* Navy blue for course code */
 }
 
-.detail-label {
-    color: var(--sky-blue); /* Sky blue for bar labels */
+.detail-label, [id$="-score"] { /* Targets all elements with id ending in -score */
+    color: var(--sky-blue);
 }
 
 #ratings-container {
