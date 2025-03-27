@@ -100,3 +100,4 @@ const init = async () => {
 };
 
 init();
+console.log("course-detail.js loading")
