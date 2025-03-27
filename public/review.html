@@ -3,59 +3,6 @@
 <head>
     <title>Course Reviews</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Specific styles for review.html to adjust or override */
-        #review-container {
-            padding: 50px;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            align-items: center; /* Center content horizontally */
-        }
-
-        #class-list {
-            max-height: 400px; /* Increased max-height for more items */
-            overflow-y: auto;
-            border: 1px solid var(--light-blue);
-            margin: 20px auto;
-            width: 80%;
-            background-color: var(--navy-blue);
-            text-align: left; /* Align course names to the left */
-        }
-
-        .course-item {
-            padding: 10px 20px; /* Added left/right padding */
-            border-bottom: 1px solid var(--blue);
-            cursor: pointer;
-            color: var(--sky-blue); /* Set default text color */
-        }
-
-        .course-item:last-child {
-            border-bottom: none; /* Remove border from the last item */
-        }
-
-        .course-item:hover {
-            background-color: var(--light-blue);
-            color: var(--navy-blue); /* Change text color on hover */
-        }
-
-        #review-back-button {
-            background-color: var(--blue);
-            color: var(--sky-blue);
-            font-size: 20px;
-            padding: 15px 30px;
-            border: none;
-            cursor: pointer;
-            align-self: center;
-            margin-top: 20px; /* Adjust margin */
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            color: var(--light-blue);
-            margin-bottom: 30px;
-        }
-    </style>
 </head>
 <body>
     <div id="review-container">
@@ -66,8 +13,8 @@
     </div>
 
     <script type="module">
-        import { collection, getDocs, getFirestore } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { collection, getDocs, getFirestore, initializeApp, getApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        import "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
 
         // Your Firebase configuration (ensure this matches your firebase-init.js)
         const firebaseConfig = {
