@@ -65,32 +65,22 @@ const displayCourseDetails = (courseData) => {
     }
 };
 
-const displayAverageRatings = (teacher, averageRatings) => {
+const displayAverageRatings = (averageRatings) => {
     const updateBar = (barId, scoreId, score, maxScore = 5) => {
         const bar = document.getElementById(barId);
         const scoreSpan = document.getElementById(scoreId);
-
         if (bar && scoreSpan) {
             const average = parseFloat(score.toFixed(1));
             scoreSpan.textContent = isNaN(average) ? '' : average;
             const percentage = (average / maxScore) * 100;
-
-            if (isNaN(percentage)) {
-                console.error("Percentage is NaN for:", barId, "score:", score);
-                bar.style.width = '0%';
-            } else {
-                bar.style.width = `${percentage}%`;
-                console.log("Updating bar:", barId, "score:", average, "percentage:", percentage);
-            }
-        } else {
-            console.error("Bar or score element not found for:", barId);
+            bar.style.width = `${isNaN(percentage) ? 0 : percentage}%`;
         }
     };
 
-    updateBar(`rigor-bar-${teacher.teacherName}`, `rigor-score-${teacher.teacherName}`, averageRatings.subjectRigor);
-    updateBar(`workload-bar-${teacher.teacherName}`, `workload-score-${teacher.teacherName}`, averageRatings.workload);
-    updateBar(`involvement-bar-${teacher.teacherName}`, `involvement-score-${teacher.teacherName}`, averageRatings.teacherInvolvement);
-    updateBar(`homework-bar-${teacher.teacherName}`, `homework-score-${teacher.teacherName}`, averageRatings.homework);
+    updateBar('rigor-bar', 'rigor-score', averageRatings.subjectRigor);
+    updateBar('workload-bar', 'workload-score', averageRatings.workload);
+    updateBar('involvement-bar', 'involvement-score', averageRatings.teacherInvolvement);
+    updateBar('homework-bar', 'homework-score', averageRatings.homework);
 };
 
 const displayTeacherReviews = (teacherReviews) => {
@@ -120,7 +110,7 @@ const displayTeacherReviews = (teacherReviews) => {
             teacherDiv.appendChild(rigorDiv);
             teacherDiv.appendChild(workloadDiv);
             teacherDiv.appendChild(involvementDiv);
-            teacherDiv.appendChild(homeworkDiv);
+            teacherDiv.appendChild(homeworkDiv); // Added this line back!
 
             reviewsContainer.appendChild(teacherDiv);
 
@@ -131,10 +121,10 @@ const displayTeacherReviews = (teacherReviews) => {
             };
 
             const teacherRatings = {
-                subjectRigor: teacher.reviews.map(r => r.rigorScore).filter(r => r !== undefined),
-                workload: teacher.reviews.map(r => r.workloadScore).filter(r => r !== undefined),
-                teacherInvolvement: teacher.reviews.map(r => r.involvementScore).filter(r => r !== undefined),
-                homework: teacher.reviews.map(r => r.homeworkScore).filter(r => r !== undefined)
+                subjectRigor: teacher.reviews.map(r => r.subjectRigor).filter(r => r !== undefined),
+                workload: teacher.reviews.map(r => r.workload).filter(r => r !== undefined),
+                teacherInvolvement: teacher.reviews.map(r => r.teacherInvolvement).filter(r => r !== undefined),
+                homework: teacher.reviews.map(r => r.homework).filter(r => r !== undefined)
             };
 
             const averageRatings = {
@@ -144,34 +134,45 @@ const displayTeacherReviews = (teacherReviews) => {
                 homework: calculateAverage(teacherRatings.homework)
             };
 
-            // Add a check to ensure averageRatings has valid data
-            if (
-                !isNaN(averageRatings.subjectRigor) ||
-                !isNaN(averageRatings.workload) ||
-                !isNaN(averageRatings.teacherInvolvement) ||
-                !isNaN(averageRatings.homework)
-            ) {
-                displayAverageRatings(teacher, averageRatings);
-            } else {
-                console.warn(`averageRatings had no valid data for teacher: ${teacher.teacherName}`);
-            }
+            const updateBar = (barId, scoreId, score, maxScore = 5) => {
+                const bar = document.getElementById(barId);
+                const scoreSpan = document.getElementById(scoreId);
+
+                if (bar && scoreSpan) {
+                    const average = parseFloat(score.toFixed(1));
+                    scoreSpan.textContent = isNaN(average) ? '' : average;
+                    const percentage = (average / maxScore) * 100;
+
+                    if (isNaN(percentage)) {
+                        console.error("Percentage is NaN for:", barId, "score:", score);
+                        bar.style.width = '0%';
+                    } else {
+                        bar.style.width = `${percentage}%`;
+                        console.log("Updating bar:", barId, "score:", average, "percentage:", percentage);
+                    }
+                } else {
+                    console.error("Bar or score element not found for:", barId);
+                }
+            };
+
+            updateBar(`rigor-bar-${teacher.teacherName}`, `rigor-score-${teacher.teacherName}`, averageRatings.subjectRigor);
+            updateBar(`workload-bar-${teacher.teacherName}`, `workload-score-${teacher.teacherName}`, averageRatings.workload);
+            updateBar(`involvement-bar-${teacher.teacherName}`, `involvement-score-${teacher.teacherName}`, averageRatings.teacherInvolvement);
+            updateBar(`homework-bar-${teacher.teacherName}`, `homework-score-${teacher.teacherName}`, averageRatings.homework);
         });
     } else {
         reviewsContainer.textContent = "No reviews found for this course.";
     }
 };
+
 document.getElementById('back-button').addEventListener('click', function() {
-    window.history.back();
+    window.history.back(); // Navigate to the previous page
+    // Or, if you want to go to a specific page:
+    // window.location.href = 'your-desired-page.html';
 });
 
 document.getElementById('submit-review-button').addEventListener('click', function() {
-    const courseId = getCourseId();
-    if (courseId) {
-        window.location.href = `review-submission.html?courseId=${courseId}`;
-    } else {
-        console.error("Course ID not found in URL.");
-        // Optionally, redirect to an error page or display a message
-    }
+    window.location.href = 'review-submission.html';
 });
 
 const init = async () => {
@@ -183,6 +184,7 @@ const init = async () => {
         const teacherReviews = await fetchTeacherReviews(courseId);
         displayTeacherReviews(teacherReviews);
 
+        // Calculate average ratings for the course
         let allReviews = [];
         teacherReviews.forEach(teacher => {
             allReviews = allReviews.concat(teacher.reviews);
