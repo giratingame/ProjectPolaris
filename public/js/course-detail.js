@@ -38,14 +38,16 @@ const fetchCourseDetails = async (courseId) => {
 
 const fetchTeacherReviews = async (courseId) => {
     try {
-        const teachersRef = collection(doc(db, 'courses', courseId), 'Teachers');
-        const teachersSnapshot = await getDocs(teachersRef);
+        const db = getFirestore(app);
+        const courseRef = doc(db, 'courses', courseId);
+        const teachersCollection = collection(courseRef, 'Teachers');
+        const teachersSnapshot = await getDocs(teachersCollection);
         let teacherReviews = [];
 
         for (const teacherDoc of teachersSnapshot.docs) {
-            const teacherName = teacherDoc.id;
-            const reviewsRef = collection(teachersRef, teacherName, 'reviews');
-            const reviewsSnapshot = await getDocs(reviewsRef);
+            const teacherName = teacherDoc.id; // The teacher's name is the document ID
+            const reviewsCollection = collection(teacherDoc.ref, 'reviews');
+            const reviewsSnapshot = await getDocs(reviewsCollection);
             const reviews = reviewsSnapshot.docs.map(reviewDoc => reviewDoc.data());
             teacherReviews.push({ teacherName, reviews });
         }
