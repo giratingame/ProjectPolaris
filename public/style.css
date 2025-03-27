@@ -185,6 +185,8 @@ body {
 
 #teacher-reviews h3 {
     color: var(--navy-blue);
+    padding-left: 0; /* Remove indentation */
+    margin-left: 0; /* Remove indentation */
 }
 
 
