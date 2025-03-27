@@ -185,15 +185,15 @@ body {
 #teacher-reviews > div > h3 {
     padding-left: 0 !important;
     margin-left: 0 !important;
-    color: var(--navy-blue); /* Ensure text is navy */
+    color: var(--navy-blue);
 }
 
 #course-code {
     color: var(--navy-blue);
 }
 
-.detail-label, [id$="-score"] {
-    color: var(--light-blue) !important; /* Ensure light blue is used */
+.detail-label, [id^="rigor-score-"], [id^="workload-score-"], [id^="involvement-score-"], [id^="homework-score-"] {
+    color: var(--light-blue) !important;
 }
 
 #ratings-container {
