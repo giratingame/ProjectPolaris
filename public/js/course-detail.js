@@ -3,6 +3,8 @@ const displayTeacherReviews = (teacherReviews) => {
     reviewsContainer.innerHTML = '';
 
     if (teacherReviews && teacherReviews.length > 0) {
+        console.log("Teacher Reviews:", teacherReviews); // Debugging
+
         teacherReviews.forEach(teacher => {
             const teacherDiv = document.createElement('div');
             teacherDiv.classList.add('teacher-review');
@@ -42,12 +44,16 @@ const displayTeacherReviews = (teacherReviews) => {
                 homework: teacher.reviews.map(r => r.homework).filter(r => r !== undefined)
             };
 
+            console.log("Teacher Ratings:", teacherRatings); // Debugging
+
             const averageRatings = {
                 subjectRigor: calculateAverage(teacherRatings.subjectRigor),
                 workload: calculateAverage(teacherRatings.workload),
                 teacherInvolvement: calculateAverage(teacherRatings.teacherInvolvement),
                 homework: calculateAverage(teacherRatings.homework)
             };
+
+            console.log("Average Ratings:", averageRatings); // Debugging
 
             const updateBar = (barId, scoreId, score, maxScore = 5) => {
                 const bar = document.getElementById(barId);
@@ -57,6 +63,7 @@ const displayTeacherReviews = (teacherReviews) => {
                     scoreSpan.textContent = isNaN(average) ? '' : average;
                     const percentage = (average / maxScore) * 100;
                     bar.style.width = `${isNaN(percentage) ? 0 : percentage}%`;
+                    console.log("Updating bar:", barId, "score:", average); // Debugging
                 }
             };
             updateBar(`rigor-bar-${teacher.teacherName}`, `rigor-score-${teacher.teacherName}`, averageRatings.subjectRigor);
@@ -71,7 +78,7 @@ const displayTeacherReviews = (teacherReviews) => {
                 reviewsList.appendChild(reviewItem);
             });
             teacherDiv.appendChild(reviewsList);
-        }); // Correct closing brace for the forEach loop.
+        });
 
     } else {
         reviewsContainer.textContent = "No reviews found for this course.";
