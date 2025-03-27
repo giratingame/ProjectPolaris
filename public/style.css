@@ -188,21 +188,27 @@ body {
 }
 
 
-/* ... (your existing CSS) ... */
+#course-code {
+    color: var(--navy-blue); /* Navy blue for course code */
+}
+
+.detail-label {
+    color: var(--sky-blue); /* Sky blue for bar labels */
+}
 
 #ratings-container {
     max-width: 600px;
-    padding-left: 20px; /* Add padding to the left */
+    padding-left: 20px;
     text-align: left;
 }
 
 #teacher-reviews {
     max-width: 600px;
-    padding-left: 20px; /* Add padding to the left */
+    padding-left: 20px;
     text-align: left;
 }
 
 #course-details {
-    padding-left: 20px; /* Add padding to the left */
+    padding-left: 20px;
     text-align: left;
 }
