@@ -181,11 +181,12 @@ body {
 
 /* Review Page Styles */
 #review-container {
+    text-align: center;
+    padding: 50px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    min-height: 100vh; /* Ensure it takes full viewport height */
-    padding: 20px; /* Add some padding */
+    min-height: 100vh;
+    align-items: center; /* Center content horizontally */
 }
 
 #class-list {
@@ -194,38 +195,53 @@ body {
     overflow-y: auto;
     border: 1px solid var(--light-blue);
     background-color: var(--navy-blue);
-    margin-bottom: 20px;
+    margin: 20px auto;
+    text-align: left; /* Align course names to the left */
 }
 
 .course-item {
-    padding: 10px 15px;
+    padding: 10px 20px; /* Added left/right padding */
     border-bottom: 1px solid var(--blue);
-    color: var(--sky-blue);
-    text-align: left;
-    text-decoration: none;
-    display: block;
+    color: var(--sky-blue); /* Set default text color */
+    text-decoration: none; /* Remove default link underline */
+    display: block; /* Make the div a block-level element */
+    cursor: pointer; /* Add a pointer cursor on hover */
 }
 
 .course-item:last-child {
-    border-bottom: none;
+    border-bottom: none; /* Remove border from the last item */
 }
 
 .course-item:hover {
     background-color: var(--light-blue);
-    color: var(--navy-blue);
+    color: var(--navy-blue); /* Change text color on hover */
+}
+
+.course-item a {
+    display: block; /* Make the entire div clickable */
+    color: inherit; /* Inherit text color from parent */
+    text-decoration: none; /* Remove link underline */
+    width: 100%; /* Ensure it takes the full width */
+    height: 100%; /* Ensure it takes the full height */
+}
+
+.course-item a:hover {
+    color: inherit; /* Keep text color on hover */
 }
 
 #review-back-button {
     background-color: var(--blue);
     color: var(--sky-blue);
     font-size: 20px;
-    padding: 10px 20px;
+    padding: 15px 30px;
     border: none;
     cursor: pointer;
-    margin-top: 20px;
+    align-self: center;
+    margin-top: 20px; /* Adjust margin */
+    margin-bottom: 20px;
 }
 
 h1 {
     color: var(--light-blue);
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
