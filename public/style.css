@@ -185,7 +185,7 @@ body {
 #teacher-reviews > div > h3 {
     padding-left: 0 !important;
     margin-left: 0 !important;
-    color: var(--navy-blue);
+    color: var(--navy-blue) !important; /* Ensure text is navy */
 }
 
 #course-code {
@@ -193,6 +193,11 @@ body {
 }
 
 .detail-label, [id^="rigor-score-"], [id^="workload-score-"], [id^="involvement-score-"], [id^="homework-score-"] {
+    color: var(--light-blue) !important;
+}
+
+/* Fix for overall class ratings */
+#rigor-score, #workload-score, #involvement-score, #homework-score {
     color: var(--light-blue) !important;
 }
 
