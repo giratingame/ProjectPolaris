@@ -102,10 +102,10 @@ const displayTeacherReviews = (teacherReviews) => {
             const homeworkDiv = document.createElement('div');
             homeworkDiv.classList.add('review-category');
 
-            rigorDiv.innerHTML = `<span class="detail-label">Subject Rigor:</span> <span id="rigor-score-<span class="math-inline">\{teacher\.teacherName\}"\></span\><div class\="review\-bar\-container"\><div id\="rigor\-bar\-</span>{teacher.teacherName}" class="review-bar"></div></div>`;
-            workloadDiv.innerHTML = `<span class="detail-label">Workload:</span> <span id="workload-score-<span class="math-inline">\{teacher\.teacherName\}"\></span\><div class\="review\-bar\-container"\><div id\="workload\-bar\-</span>{teacher.teacherName}" class="review-bar"></div></div>`;
-            involvementDiv.innerHTML = `<span class="detail-label">Teacher Involvement:</span> <span id="involvement-score-<span class="math-inline">\{teacher\.teacherName\}"\></span\><div class\="review\-bar\-container"\><div id\="involvement\-bar\-</span>{teacher.teacherName}" class="review-bar"></div></div>`;
-            homeworkDiv.innerHTML = `<span class="detail-label">Homework:</span> <span id="homework-score-<span class="math-inline">\{teacher\.teacherName\}"\></span\><div class\="review\-bar\-container"\><div id\="homework\-bar\-</span>{teacher.teacherName}" class="review-bar"></div></div>`;
+            rigorDiv.innerHTML = `<span class="detail-label">Subject Rigor:</span> <span id="rigor-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="rigor-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
+            workloadDiv.innerHTML = `<span class="detail-label">Workload:</span> <span id="workload-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="workload-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
+            involvementDiv.innerHTML = `<span class="detail-label">Teacher Involvement:</span> <span id="involvement-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="involvement-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
+            homeworkDiv.innerHTML = `<span class="detail-label">Homework:</span> <span id="homework-score-${teacher.teacherName}"></span><div class="review-bar-container"><div id="homework-bar-${teacher.teacherName}" class="review-bar"></div></div>`;
 
             teacherDiv.appendChild(rigorDiv);
             teacherDiv.appendChild(workloadDiv);
