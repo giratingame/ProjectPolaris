@@ -12,17 +12,17 @@ body {
 }
 
 #main-container {
-    text-align: center;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column; /* Add this */
 }
 
 #welcome-label {
     font-size: 50px;
     color: var(--blue);
-    margin-bottom: 300px;
+    margin-bottom: 50px; /* Adjusted margin */
 }
 
 #button-container {
